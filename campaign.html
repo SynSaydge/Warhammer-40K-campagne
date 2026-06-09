@@ -1,0 +1,3066 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaignum Grimdark - Warhammer 40K</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#d4a574;--gold-d:#c9945f;--gold-l:#e8c9a0;
+  --bg:#0d0d0d;--bg2:#1a1a1a;--bg3:#252525;--bg4:#2f2f2f;
+  --txt:#8a7a6a;--txt2:#5a5a5a;--brd:#3a3a3a;--brd-g:#d4a574;
+  --a1:#c0522a;--a2:#2a5fc0;--a3:#2ac05a;--a4:#c0b82a;
+}
+body{font-family:'Crimson Text',serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:16px}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--brd-g)}
+
+/* HEADER */
+#header{background:var(--bg2);border-bottom:1px solid var(--brd-g);padding:18px 30px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+#header-left{display:flex;align-items:center;gap:15px}
+#logo{width:36px;height:36px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem;flex-shrink:0}
+#header h1{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:300;color:var(--gold);letter-spacing:4px;text-transform:uppercase}
+#header-sub{font-size:0.7rem;color:var(--txt2);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+#user-bar{display:flex;align-items:center;gap:12px;font-size:0.85rem}
+#user-bar span{color:var(--gold)}
+.badge{display:inline-block;padding:3px 10px;background:rgba(212,165,116,0.1);border:1px solid var(--brd-g);font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold)}
+.badge.admin{background:rgba(212,165,116,0.2)}
+.badge.kia{background:rgba(180,50,50,0.2);border-color:#b43232;color:#d47070}
+.badge.active{background:rgba(50,180,100,0.1);border-color:#32b464;color:#70d4a0}
+
+/* NAV */
+#nav{background:var(--bg2);border-bottom:1px solid var(--brd);display:flex;overflow-x:auto}
+.nav-btn{padding:13px 22px;background:transparent;border:none;border-right:1px solid var(--brd);color:var(--txt);font-family:'Cinzel',serif;font-size:0.78rem;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.25s;white-space:nowrap;position:relative}
+.nav-btn:last-child{border-right:none}
+.nav-btn::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width 0.25s}
+.nav-btn:hover,.nav-btn.active{color:var(--gold);background:rgba(212,165,116,0.04)}
+.nav-btn:hover::after,.nav-btn.active::after{width:100%}
+
+/* MAIN */
+#main{padding:30px;max-width:1600px;margin:0 auto}
+.page{display:none;animation:fi 0.3s ease-out}
+.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION */
+.sec{background:var(--bg2);border:1px solid var(--brd);padding:25px;margin-bottom:25px}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--brd-g)}
+.sec-title{font-family:'Cinzel',serif;font-size:1rem;font-weight:400;color:var(--gold);text-transform:uppercase;letter-spacing:3px}
+.sec-sub{font-size:0.82rem;color:var(--txt2);margin-top:4px}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+@media(max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}#main{padding:15px}}
+
+/* CARDS */
+.card{background:var(--bg3);border:1px solid var(--brd);padding:18px;transition:all 0.25s;cursor:default}
+.card:hover{border-color:var(--brd-g);background:rgba(212,165,116,0.02)}
+.card-title{font-family:'Cinzel',serif;font-size:0.9rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.card p{font-size:0.88rem;margin-bottom:6px}
+.card strong{color:var(--gold-l)}
+
+/* STAT CARDS */
+.stat{background:var(--bg3);border:1px solid var(--brd);padding:22px;text-align:center;transition:all 0.25s}
+.stat:hover{border-color:var(--brd-g)}
+.stat-lbl{font-size:0.7rem;color:var(--txt2);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.stat-val{font-family:'Cinzel',serif;font-size:2.2rem;font-weight:300;color:var(--gold)}
+
+/* FORMS */
+.fg{margin-bottom:16px}
+.fg label{display:block;color:var(--txt);font-size:0.8rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);font-family:'Crimson Text',serif;font-size:0.95rem;transition:all 0.25s;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--brd-g);background:var(--bg2)}
+.fg select option{background:var(--bg2);color:var(--gold-l)}
+.fg textarea{resize:vertical;min-height:80px}
+.fg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.fg-inline{display:flex;gap:10px;align-items:flex-end}
+
+/* BUTTONS */
+.btn{padding:10px 24px;background:transparent;border:1px solid var(--brd-g);color:var(--gold);font-family:'Cinzel',serif;font-size:0.78rem;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all 0.25s;white-space:nowrap}
+.btn:hover{background:rgba(212,165,116,0.1);border-color:var(--gold-l)}
+.btn-p{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.btn-p:hover{background:var(--gold-l);border-color:var(--gold-l)}
+.btn-d{border-color:#8a4040;color:#d49090}
+.btn-d:hover{background:rgba(138,64,64,0.2);border-color:#d49090}
+.btn-s{border-color:#408a60;color:#90d4a8}
+.btn-s:hover{background:rgba(64,138,96,0.2);border-color:#90d4a8}
+.btn-sm{padding:6px 14px;font-size:0.7rem}
+.btn-xs{padding:4px 10px;font-size:0.65rem}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th,.tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--brd)}
+.tbl th{background:var(--bg3);color:var(--gold);font-family:'Cinzel',serif;font-weight:400;text-transform:uppercase;letter-spacing:1.5px;font-size:0.75rem}
+.tbl tr:hover td{background:rgba(212,165,116,0.02)}
+.tbl td{color:var(--txt);font-size:0.88rem}
+
+/* MESSAGES */
+.msg{padding:12px 16px;margin-bottom:14px;border-left:2px solid;font-size:0.88rem}
+.msg.ok{border-color:#5a9a70;color:#90d4a8;background:rgba(90,154,112,0.08)}
+.msg.err{border-color:#9a5a5a;color:#d49090;background:rgba(154,90,90,0.08)}
+.msg.info{border-color:var(--gold);color:var(--gold-l);background:rgba(212,165,116,0.05)}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;justify-content:center;align-items:center;padding:20px}
+.modal.active{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--brd-g);padding:35px;max-width:750px;max-height:90vh;overflow-y:auto;width:100%;position:relative}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;padding-bottom:16px;border-bottom:1px solid var(--brd-g)}
+.modal-hdr h3{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:400;color:var(--gold);text-transform:uppercase;letter-spacing:3px}
+.modal-close{background:none;border:none;color:var(--txt2);font-size:1.8rem;cursor:pointer;line-height:1;transition:color 0.2s}
+.modal-close:hover{color:var(--gold)}
+
+/* TABS */
+.tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--brd);margin-bottom:22px}
+.tab-btn{padding:10px 18px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--txt);font-family:'Cinzel',serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.2s;margin-bottom:-1px}
+.tab-btn:hover,.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-pane{display:none}
+.tab-pane.active{display:block;animation:fi 0.25s ease-out}
+
+/* LOGIN */
+.login-wrap{max-width:460px;margin:70px auto}
+.login-box{background:var(--bg2);border:1px solid var(--brd-g);padding:40px}
+.login-box h2{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:300;color:var(--gold);text-transform:uppercase;letter-spacing:4px;margin-bottom:28px;text-align:center;padding-bottom:18px;border-bottom:1px solid var(--brd-g)}
+
+/* MAP */
+.map-wrap{overflow:auto;background:var(--bg);border:1px solid var(--brd);padding:20px}
+.map-grid{display:grid;gap:10px}
+.terr{background:var(--bg2);border:2px solid var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;position:relative;min-height:100px;padding:8px}
+.terr:hover{transform:scale(1.03);z-index:10}
+.terr.neutral{border-style:dashed;border-color:#555}
+.terr.ruined{border-style:dashed;border-color:#444;opacity:0.55}
+.terr-name{font-family:'Cinzel',serif;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;text-align:center;color:var(--txt2)}
+.terr.neutral .terr-name{color:#666}
+.terr.owned .terr-name{color:inherit}
+.terr-owner{font-size:0.65rem;color:var(--txt2);margin-top:4px;text-align:center}
+.terr-bld{position:absolute;bottom:5px;right:6px;font-size:0.6rem;color:var(--txt2)}
+.map-legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.78rem}
+.legend-dot{width:14px;height:14px;border:2px solid}
+
+/* UNIT ROWS */
+.unit-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--brd);padding:12px 16px;margin-bottom:8px;transition:all 0.2s}
+.unit-row:hover{border-color:var(--brd-g)}
+.unit-row.kia{opacity:0.5}
+.unit-info{flex:1}
+.unit-name{font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold);text-transform:uppercase;letter-spacing:1px}
+.unit-sub{font-size:0.78rem;color:var(--txt2);margin-top:2px}
+.unit-morale{display:flex;align-items:center;gap:6px}
+.morale-pip{width:14px;height:14px;border:1px solid;border-radius:2px}
+.morale-pip.full{background:var(--gold);border-color:var(--gold)}
+.morale-pip.empty{background:transparent;border-color:#555}
+
+/* RESOURCE BAR */
+.res-bar{display:flex;flex-wrap:wrap;gap:12px;background:var(--bg3);border:1px solid var(--brd);padding:14px 18px;margin-bottom:20px}
+.res-item{display:flex;align-items:center;gap:8px;font-size:0.85rem}
+.res-icon{font-size:1.1rem}
+.res-label{color:var(--txt2);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px}
+.res-val{font-family:'Cinzel',serif;color:var(--gold);font-size:1rem}
+
+/* EFFECT BUILDER */
+.effect-block{background:var(--bg);border:1px solid var(--brd);padding:14px;margin-bottom:10px;position:relative}
+.effect-block .remove-eff{position:absolute;top:8px;right:8px}
+.level-block{background:var(--bg);border-left:3px solid var(--brd-g);padding:16px;margin-bottom:14px}
+.level-block h5{font-family:'Cinzel',serif;color:var(--gold);font-size:0.82rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
+
+/* RANKING */
+.rank-row{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--brd);transition:all 0.2s}
+.rank-row:hover{background:rgba(212,165,116,0.03)}
+.rank-num{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--txt2);width:30px;text-align:center;flex-shrink:0}
+.rank-num.gold{color:#ffd700}
+.rank-num.silver{color:#c0c0c0}
+.rank-num.bronze{color:#cd7f32}
+.rank-info{flex:1}
+.rank-name{font-family:'Cinzel',serif;font-size:0.9rem;color:var(--gold);text-transform:uppercase;letter-spacing:1px}
+.rank-sub{font-size:0.78rem;color:var(--txt2);margin-top:2px}
+.rank-score{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold-l)}
+
+/* NOTIF */
+#notif{position:fixed;bottom:20px;right:20px;z-index:99999;display:flex;flex-direction:column;gap:8px}
+.notif-item{background:var(--bg2);border:1px solid var(--brd-g);padding:12px 18px;font-size:0.85rem;color:var(--gold-l);max-width:300px;animation:slideIn 0.3s ease-out;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+/* GRADE ORDER BTNS */
+.grade-row{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--brd);padding:12px 16px;margin-bottom:8px}
+.grade-order{display:flex;flex-direction:column;gap:2px}
+.order-btn{padding:2px 6px;font-size:0.6rem;background:transparent;border:1px solid var(--brd);color:var(--txt2);cursor:pointer;transition:all 0.2s}
+.order-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* MISC */
+.divider{border:none;border-top:1px solid var(--brd);margin:20px 0}
+.text-gold{color:var(--gold)}
+.text-muted{color:var(--txt2)}
+.mt10{margin-top:10px}
+.mt20{margin-top:20px}
+.mb10{margin-bottom:10px}
+.mb20{margin-bottom:20px}
+.flex{display:flex;gap:10px;align-items:center}
+.flex-between{display:flex;justify-content:space-between;align-items:center}
+.w100{width:100%}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="header-left">
+    <div id="logo">⚔</div>
+    <div>
+      <h1>Campaignum Grimdark</h1>
+      <div id="header-sub">Warhammer 40,000 — Eternal War Protocol</div>
+    </div>
+  </div>
+  <div id="user-bar" style="display:none">
+    <span id="ub-name"></span>
+    <span id="ub-grade" class="badge"></span>
+    <span id="ub-admin" class="badge admin hidden">Admin</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div id="nav" style="display:none">
+  <button class="nav-btn active" onclick="showPage('dashboard',this)">Tableau de bord</button>
+  <button class="nav-btn" onclick="showPage('profile',this)">Mon profil</button>
+  <button class="nav-btn" onclick="showPage('alliance',this)">Alliance</button>
+  <button class="nav-btn" onclick="showPage('map',this)">Carte</button>
+  <button class="nav-btn" onclick="showPage('battles',this)">Batailles</button>
+  <button class="nav-btn" onclick="showPage('rankings',this)">Classements</button>
+  <button class="nav-btn" id="nav-admin" onclick="showPage('admin',this)" style="display:none">Administration</button>
+  <button class="nav-btn" onclick="doLogout()">Déconnexion</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<!--===== PAGE: LOGIN===== -->
+<div class="page active" id="page-login">
+  <div class="login-wrap">
+    <div class="login-box">
+      <h2>Connexion</h2>
+      <div id="login-msg"></div>
+      <div class="fg"><label>Pseudo</label><input type="text" id="l-user" placeholder="Votre pseudo"></div>
+      <div class="fg"><label>Mot de passe</label><input type="password" id="l-pass" placeholder="••••••••"></div>
+      <button class="btn btn-p w100 mb10" onclick="doLogin()">Connexion</button>
+      <button class="btn w100" onclick="showPage('register')">Créer un compte</button>
+    </div>
+  </div>
+</div>
+
+<!--===== PAGE: REGISTER ===== -->
+<div class="page" id="page-register">
+  <div class="login-wrap">
+    <div class="login-box">
+      <h2>Créer un compte</h2>
+      <div id="reg-msg"></div>
+      <div class="fg"><label>Pseudo</label><input type="text" id="r-user" placeholder="Votre pseudo"></div>
+      <div class="fg"><label>Mot de passe</label><input type="password" id="r-pass" placeholder="Min. 6 caractères"></div>
+      <div class="fg"><label>Faction</label><input type="text" id="r-faction" placeholder="Ex: Space Marines, Chaos,Orks..."></div>
+      <div class="fg"><label>Avatar (URL)</label><input type="url" id="r-avatar" placeholder="https://..."></div>
+      <div class="fg"><label>Bannière (URL)</label><input type="url" id="r-banner" placeholder="https://..."></div>
+      <button class="btn btn-p w100 mb10" onclick="doRegister()">Créer mon compte</button>
+      <button class="btn w100" onclick="showPage('login')">Retour à la connexion</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: DASHBOARD ===== -->
+<div class="page" id="page-dashboard">
+  <div class="sec">
+    <div class="sec-hdr">
+      <div><div class="sec-title">Aperçu des modules</div><div class="sec-sub">Vue d'ensemble de la campagne</div></div></div>
+    <div class="g2mb20">
+      <div class="card"><div class="card-title">Frères de guerre</div><p>Profils joueurs, serments d'alliance, rangs de campagne</p></div>
+      <div class="card"><div class="card-title">Théâtre de guerre</div><p>Secteurs contrôlés, ruines, fortifications érigées</p></div>
+      <div class="card"><div class="card-title">Ordre de bataille</div><p>Unités, moral, pertes au combat, historique</p></div>
+      <div class="card"><div class="card-title">Infrastructures</div><p>Citadelles, mines de ressources, reliques de guerre</p></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-hdr"><div class="sec-title">Statistiques</div></div>
+    <div class="g4">
+      <div class="stat"><div class="stat-lbl">Joueurs</div><div class="stat-val" id="ds-players">0</div></div>
+      <div class="stat"><div class="stat-lbl">Alliances</div><div class="stat-val" id="ds-alliances">0</div></div>
+      <div class="stat"><div class="stat-lbl">Territoires</div><div class="stat-val" id="ds-territories">0</div></div>
+      <div class="stat"><div class="stat-lbl">Batailles</div><div class="stat-val" id="ds-battles">0</div></div></div>
+  </div>
+  <div class="sec" id="ds-news-sec">
+    <div class="sec-hdr"><div class="sec-title">Dernières nouvelles</div></div>
+    <div id="ds-news"><p class="text-muted">Aucune nouvelle pour le moment.</p></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: PROFILE ===== -->
+<div class="page" id="page-profile">
+  <div class="g2">
+    <div>
+      <div class="sec">
+        <div class="sec-hdr"><div class="sec-title">Mon profil</div><button class="btn btn-sm" onclick="openEditProfile()">Modifier</button></div>
+        <div id="prof-banner" style="height:100px;background:var(--bg3);border:1px solid var(--brd);margin-bottom:16px;background-size:cover;background-position:center"></div>
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:16px">
+          <div id="prof-avatar" style="width:70px;height:70px;background:var(--bg3);border:1px solid var(--brd-g);flex-shrink:0;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:2rem">⚔</div>
+          <div>
+            <div style="font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold)" id="prof-name">—</div>
+            <div class="text-muted" id="prof-faction" style="font-size:0.85rem;margin-top:4px">—</div>
+            <div id="prof-grade-badge" class="badge mt10">—</div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="stat"><div class="stat-lbl">Pts Armée Max</div><div class="stat-val" id="prof-pts">2000</div></div>
+          <div class="stat"><div class="stat-lbl">Victoires</div><div class="stat-val" id="prof-v">0</div></div>
+          <div class="stat"><div class="stat-lbl">Défaites</div><div class="stat-val" id="prof-d">0</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="sec-hdr"><div class="sec-title">Grade actuel</div></div>
+        <div id="prof-grade-detail"><p class="text-muted">Aucun grade.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec">
+        <div class="sec-hdr">
+          <div><div class="sec-title">Ordre de bataille</div><div class="sec-sub">Liste d'armée personnelle</div></div>
+          <button class="btn btn-sm" onclick="openAddUnit()">+ Unité</button>
+        </div>
+        <div id="prof-units"><p class="text-muted">Aucune unité enregistrée.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: ALLIANCE ===== -->
+<div class="page" id="page-alliance">
+  <div id="all-no-alliance">
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">Alliance</div></div>
+      <p class="text-muted mb20">Vous n'appartenez à aucune alliance.</p>
+      <div class="g2">
+        <div>
+          <h4class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Créer une alliance</h4>
+          <div class="fg"><label>Nom</label><input type="text" id="all-new-name" placeholder="Nom de l'alliance"></div>
+          <div class="fg"><label>Couleur thématique</label><input type="color" id="all-new-color" value="#d4a574"></div>
+          <div class="fg"><label>Bannière (URL)</label><input type="url" id="all-new-banner" placeholder="https://..."></div>
+          <button class="btn btn-p" onclick="createAlliance()">Créer l'alliance</button>
+        </div>
+        <div>
+          <h4 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Rejoindre une alliance</h4>
+          <div id="all-join-list"><p class="text-muted">Aucune alliance disponible.</p></div>
+        </div>
+      </div>
+    </div>
+  </div><div id="all-in-alliance" style="display:none">
+    <div class="sec">
+      <div class="sec-hdr">
+        <div><div class="sec-title" id="all-name-display">Alliance</div><div class="sec-sub" id="all-role-display"></div></div>
+        <button class="btn btn-d btn-sm" onclick="leaveAlliance()">Quitter</button>
+      </div>
+      <div id="all-banner-display" style="height:80px;background:var(--bg3);border:1px solid var(--brd);margin-bottom:16px;background-size:cover;background-position:center"></div>
+      <div class="res-bar" id="all-resources"></div>
+      <div class="g2">
+        <div>
+          <h4 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Membres</h4>
+          <div id="all-members-list"></div>
+        </div>
+        <div>
+          <h4 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Territoires contrôlés</h4>
+          <div id="all-territories-list"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-hdr">
+        <div><div class="sec-title">Bâtiments</div></div>
+        <button class="btn btn-sm" onclick="openBuildModal()" id="all-build-btn">+ Construire</button>
+      </div>
+      <div id="all-buildings-list"><p class="text-muted">Aucun bâtiment construit.</p></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">Boutique — Augmenter les points d'armée</div></div>
+      <p class="text-muted mb10">Coût :<span id="all-pts-cost">100</span> RP pour +100 points d'armée</p>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input type="number" id="all-pts-amount" placeholder="Quantité (x100pts)" style="width:200px;padding:8px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l)">
+        <button class="btn btn-s" onclick="buyArmyPoints()">Acheter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: MAP ===== -->
+<div class="page" id="page-map">
+  <div class="sec">
+    <div class="sec-hdr">
+      <div><div class="sec-title">Théâtre de guerre</div><div class="sec-sub">Carte des territoires</div></div>
+      <div style="display:flex;gap:8px">
+        <select id="map-filter" onchange="renderMap()" style="padding:8px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);font-size:0.8rem">
+          <option value="all">Tous les territoires</option>
+          <option value="neutral">Neutres</option>
+          <option value="owned">Contrôlés</option>
+        </select>
+      </div>
+    </div>
+    <div class="map-legend" id="map-legend"></div>
+    <div class="map-wrap">
+      <div class="map-grid" id="map-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: BATTLES ===== -->
+<div class="page" id="page-battles">
+  <div class="g2">
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">Déclarer une bataille</div></div>
+      <div class="fg"><label>Attaquant</label>
+        <select id="b-attacker"><option value="">Sélectionner...</option></select>
+      </div>
+      <div class="fg"><label>Défenseur</label>
+        <select id="b-defender"><option value="">Sélectionner...</option></select>
+      </div>
+      <div class="fg"><label>Territoire contesté</label>
+        <select id="b-territory"><option value="">Sélectionner...</option></select>
+      </div>
+      <div class="fg"><label>Mission (optionnelle)</label>
+        <select id="b-mission"><option value="">Aucune mission</option></select>
+      </div>
+      <button class="btn btn-p" onclick="declareBattle()">Déclarer la bataille</button>
+    </div>
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">Saisir un résultat</div></div>
+      <div id="b-pending-list"><p class="text-muted">Aucune bataille en attente.</p></div>
+    </div>
+  </div><div class="sec">
+    <div class="sec-hdr"><div class="sec-title">Historique des batailles</div></div>
+    <div id="b-history"><p class="text-muted">Aucune bataille enregistrée.</p></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: RANKINGS ===== -->
+<div class="page" id="page-rankings">
+  <div class="g2">
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">🏆 Classement Solo</div></div>
+      <div id="rank-solo"></div>
+    </div>
+    <div class="sec">
+      <div class="sec-hdr"><div class="sec-title">🛡 Classement Alliances</div></div>
+      <div id="rank-alliance"></div>
+    </div></div>
+</div>
+
+<!-- ===== PAGE: ADMIN ===== -->
+<div class="page" id="page-admin">
+  <div class="sec">
+    <div class="sec-hdr"><div class="sec-title">⚙ Administration</div></div>
+    <div class="tabs" id="admin-tabs">
+      <button class="tab-btn active" onclick="adminTab('players',this)">Joueurs</button>
+      <button class="tab-btn" onclick="adminTab('grades',this)">Grades</button>
+      <button class="tab-btn" onclick="adminTab('buildings',this)">Bâtiments</button>
+      <button class="tab-btn" onclick="adminTab('relics',this)">Reliques</button>
+      <button class="tab-btn" onclick="adminTab('missions',this)">Missions</button>
+      <button class="tab-btn" onclick="adminTab('morale',this)">Morale</button>
+      <button class="tab-btn" onclick="adminTab('consequences',this)">Conséquences</button>
+      <button class="tab-btn" onclick="adminTab('mapAdmin',this)">Carte</button>
+      <button class="tab-btn" onclick="adminTab('settings',this)">Paramètres</button>
+      <button class="tab-btn" onclick="adminTab('logs',this)">Logs</button>
+      <button class="tab-btn" onclick="adminTab('backup',this)">Backup</button>
+    </div>
+
+    <!-- ADMIN: PLAYERS -->
+    <div class="tab-pane active" id="adm-players">
+      <div class="flex-between mb20">
+        <h4class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Gestion des joueurs</h4></div>
+      <div id="adm-players-list"></div></div>
+
+    <!-- ADMIN: GRADES -->
+    <div class="tab-pane" id="adm-grades">
+      <div class="flex-between mb20">
+        <h4 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Configuration des grades</h4>
+        <button class="btn btn-sm" onclick="openGradeModal()">+ Ajouter un grade</button>
+      </div>
+      <div id="adm-grades-list"></div>
+    </div>
+
+    <!-- ADMIN: BUILDINGS -->
+    <div class="tab-pane" id="adm-buildings">
+      <div class="flex-between mb20">
+        <h4 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Gestion des bâtiments</h4>
+        <button class="btn btn-sm" onclick="openBuildingEditor()">+ Créer un bâtiment</button>
+      </div>
+      <div id="adm-buildings-list"></div>
+    </div>
+
+    <!-- ADMIN: RELICS -->
+    <div class="tab-pane" id="adm-relics">
+      <div class="flex-between mb20">
+        <h4 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Gestion des reliques</h4>
+        <button class="btn btn-sm" onclick="openRelicEditor()">+ Créer une relique</button>
+      </div>
+      <div id="adm-relics-list"></div>
+    </div>
+
+    <!-- ADMIN: MISSIONS -->
+    <div class="tab-pane" id="adm-missions">
+      <div class="flex-between mb20">
+        <h4 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Gestion des missions</h4>
+        <button class="btn btn-sm" onclick="openMissionEditor()">+ Créer une mission</button>
+      </div>
+      <div id="adm-missions-list"></div>
+    </div>
+
+    <!-- ADMIN: MORALE -->
+    <div class="tab-pane" id="adm-morale">
+      <h4 class="text-gold mb20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Configuration du Moral</h4>
+      <div class="fg" style="max-width:200px">
+        <label>Moral de base</label>
+        <input type="number" id="mor-base" min="0" max="10" value="1" onchange="saveMoraleConfig()">
+      </div>
+      <div class="flex-between mb10">
+        <h5 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Règles de calcul</h5>
+        <button class="btn btn-sm" onclick="addMoraleRule()">+ Ajouter règle</button>
+      </div>
+      <div id="morale-rules-list"></div>
+      <hr class="divider">
+      <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Tester le calcul</h5>
+      <div class="fg-row">
+        <div class="fg"><label>Type unité</label><input type="text" id="test-type" placeholder="Ex: Ligne"></div>
+        <div class="fg"><label>Coût (pts)</label><input type="number" id="test-cost" placeholder="Ex: 90"></div>
+        <div class="fg"><label>Mots-clés</label><input type="text" id="test-keywords" placeholder="Ex: Infanterie, Psyker"></div>
+        <div class="fg"><label>Grade joueur</label><input type="number" id="test-grade" placeholder="Ex: 2" min="1"></div>
+      </div>
+      <button class="btn btn-sm btn-p" onclick="testMorale()">Calculer</button>
+      <div id="morale-test-result" class="mt10"></div>
+    </div>
+
+    <!-- ADMIN: CONSEQUENCES -->
+    <div class="tab-pane" id="adm-consequences">
+      <h4 class="text-gold mb20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Conséquences des batailles</h4>
+      <div class="g2">
+        <div>
+          <div class="level-block">
+            <h5>Réquisition territoire neutre</h5>
+            <div class="fg"><label>Coût (RP)</label><input type="number" id="cons-neutral-cost" value="150" onchange="saveConsequences()"></div>
+          </div>
+          <div class="level-block">
+            <h5>Victoire Majeure — Seuil</h5>
+            <div class="fg"><label>Écart de points minimum</label><input type="number" id="cons-major-threshold" value="500" onchange="saveConsequences()"></div>
+            <div class="fg"><label>GainRP vainqueur</label><input type="number" id="cons-major-rp" value="100" onchange="saveConsequences()"></div>
+            <div class="fg"><label>Gain ressource vainqueur</label><input type="number" id="cons-major-res" value="20" onchange="saveConsequences()"></div>
+            <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="cons-major-terr" checked onchange="saveConsequences()"> Prise du territoire</label></div>
+            <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="cons-major-bld" checked onchange="saveConsequences()"> Destruction1 bâtiment ennemi</label></div>
+          </div>
+          <div class="level-block">
+            <h5>Victoire Mineure — Seuil</h5>
+            <div class="fg"><label>Écart min</label><input type="number" id="cons-minor-min" value="200" onchange="saveConsequences()"></div>
+            <div class="fg"><label>Écart max</label><input type="number" id="cons-minor-max" value="499" onchange="saveConsequences()"></div>
+            <div class="fg"><label>Gain RP vainqueur</label><input type="number" id="cons-minor-rp" value="50" onchange="saveConsequences()"></div>
+            <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="cons-minor-terr" checked onchange="saveConsequences()"> Prise du territoire</label></div>
+          </div>
+        </div>
+        <div>
+          <div class="level-block">
+            <h5>Égalité</h5>
+            <div class="fg"><label>Gain RP attaquant</label><input type="number" id="cons-draw-atk" value="25" onchange="saveConsequences()"></div>
+            <div class="fg"><label>Gain RP défenseur</label><input type="number" id="cons-draw-def" value="25" onchange="saveConsequences()"></div>
+          </div>
+          <div class="level-block">
+            <h5>Défaite</h5>
+            <div class="fg"><label>Perte RP</label><input type="number" id="cons-defeat-rp" value="50" onchange="saveConsequences()"></div>
+            <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="cons-defeat-bld" onchange="saveConsequences()"> Destruction bâtiment aléatoire</label></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-p" onclick="saveConsequences();notify('Conséquences sauvegardées')">Sauvegarder</button>
+    </div>
+
+    <!-- ADMIN: MAP -->
+    <div class="tab-pane" id="adm-mapAdmin">
+      <h4 class="text-gold mb20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Gestion de la carte</h4>
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+        <button class="btn btn-d btn-sm" onclick="adminResetMap()">Réinitialiser la carte</button>
+        <button class="btn btn-sm" onclick="adminGenerateMap()">Régénérer (aléatoire)</button>
+      </div>
+      <div id="adm-map-list"></div>
+    </div>
+
+    <!-- ADMIN: SETTINGS -->
+    <div class="tab-pane" id="adm-settings">
+      <h4 class="text-gold mb20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Paramètres globaux</h4>
+      <div class="g2">
+        <div class="fg"><label>RP de départ (nouveaux joueurs)</label><input type="number" id="set-start-rp" value="0" onchange="saveSettings()"></div>
+        <div class="fg"><label>Points d'armée de départ</label><input type="number" id="set-start-pts" value="2000" onchange="saveSettings()"></div>
+        <div class="fg"><label>Coût pour +100 pts d'armée (RP)</label><input type="number" id="set-pts-cost" value="100" onchange="saveSettings()"></div>
+        <div class="fg"><label>Multiplicateur génération ressources</label><input type="number" id="set-res-mult" value="1" step="0.1" min="0.1" onchange="saveSettings()"></div>
+        <div class="fg"><label>Nombre de colonnes de la carte</label><input type="number" id="set-map-cols" value="10" min="5" max="20" onchange="saveSettings()"></div>
+        <div class="fg"><label>Nombre de lignes de la carte</label><input type="number" id="set-map-rows" value="10" min="5" max="20" onchange="saveSettings()"></div>
+        <div class="fg"><label>Slots bâtiments par défaut</label><input type="number" id="set-slots" value="4" min="1" onchange="saveSettings()"></div>
+        <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="set-auto-res" checked onchange="saveSettings()"> Génération automatique de ressources</label></div></div>
+      <button class="btn btn-p" onclick="saveSettings();notify('Paramètres sauvegardés')">Sauvegarder</button>
+    </div>
+
+    <!-- ADMIN: LOGS -->
+    <div class="tab-pane" id="adm-logs">
+      <div class="flex-between mb20">
+        <h4 class="text-gold" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Historique des actions</h4>
+        <button class="btn btn-d btn-sm" onclick="clearLogs()">Effacer les logs</button>
+      </div>
+      <div class="fg"><label>Filtrer par type</label>
+        <select onchange="renderLogs(this.value)" style="padding:8px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l)">
+          <option value="all">Toutes les actions</option>
+          <option value="battle">Batailles</option>
+          <option value="territory">Territoires</option>
+          <option value="building">Bâtiments</option>
+          <option value="relic">Reliques</option>
+          <option value="player">Joueurs</option>
+        </select>
+      </div>
+      <div id="adm-logs-list"></div>
+    </div>
+
+    <!-- ADMIN: BACKUP -->
+    <div class="tab-pane" id="adm-backup">
+      <h4 class="text-gold mb20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Sauvegarde & Restauration</h4>
+      <div class="g3">
+        <div class="card">
+          <div class="card-title">Exporter</div>
+          <p class="mb10">Télécharger toutes les données en JSON</p>
+          <button class="btn btn-s" onclick="exportData()">Exporter JSON</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Importer</div>
+          <p class="mb10">Restaurer depuis un fichier JSON</p>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+          <button class="btn" onclick="document.getElementById('import-file').click()">Importer JSON</button>
+        </div><div class="card">
+          <div class="card-title">Réinitialiser</div>
+          <p class="mb10">Effacer toutes les données de la campagne</p>
+          <button class="btn btn-d" onclick="resetCampaign()">Réinitialiser la campagne</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- MODALS -->
+<div class="modal" id="modal-territory">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3 id="mt-title">Territoire</h3><button class="modal-close" onclick="closeModal('modal-territory')">×</button></div>
+    <div id="mt-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-unit">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3 id="mu-title">Unité</h3><button class="modal-close" onclick="closeModal('modal-unit')">×</button></div>
+    <div id="mu-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-grade">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3 id="mg-title">Grade</h3><button class="modal-close" onclick="closeModal('modal-grade')">×</button></div>
+    <div id="mg-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-building">
+  <div class="modal-box" style="max-width:900px">
+    <div class="modal-hdr"><h3 id="mb-title">Bâtiment</h3><button class="modal-close" onclick="closeModal('modal-building')">×</button></div>
+    <div id="mb-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-relic">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3 id="mr-title">Relique</h3><button class="modal-close" onclick="closeModal('modal-relic')">×</button></div>
+    <div id="mr-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-mission">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3 id="mm-title">Mission</h3><button class="modal-close" onclick="closeModal('modal-mission')">×</button></div>
+    <div id="mm-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-battle-result">
+  <div class="modal-box" style="max-width:900px">
+    <div class="modal-hdr"><h3>Saisir le résultat</h3><button class="modal-close" onclick="closeModal('modal-battle-result')">×</button></div>
+    <div id="mbr-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-edit-player">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3>Modifier le joueur</h3><button class="modal-close" onclick="closeModal('modal-edit-player')">×</button></div>
+    <div id="mep-content"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal-build-territory">
+  <div class="modal-box">
+    <div class="modal-hdr"><h3>Construire un bâtiment</h3><button class="modal-close" onclick="closeModal('modal-build-territory')">×</button></div>
+    <div id="mbt-content"></div>
+  </div>
+</div>
+
+<div id="notif"></div>
+
+<script>
+// CAMPAIGNUM GRIMDARK - COMPLETE SYSTEM V2.1- CORRECTED
+
+const S = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)) } catch(e) { return null } },
+  set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+  def: (k, v) => { if (!localStorage.getItem(k)) S.set(k, v) }
+};
+
+function initData() {
+  S.def('players', []);
+  S.def('alliances', []);
+  S.def('territories', generateTerritories(10, 10));
+  S.def('battles', []);
+  S.def('grades', defaultGrades());
+  S.def('buildings_templates', []);
+  S.def('relics_templates', []);
+  S.def('missions', []);
+  S.def('morale_config', { base: 1, rules: defaultMoraleRules() });
+  S.def('consequences', defaultConsequences());
+  S.def('settings', defaultSettings());
+  S.def('logs', []);
+}
+
+function defaultSettings() {
+  return { startRp: 0, startPts: 2000, ptsCost: 100, resMult: 1, mapCols: 10, mapRows: 10, slots: 4, autoRes: true };
+}
+
+function defaultConsequences() {
+  return {
+    neutralCost: 150,
+    major: { threshold: 500, rp: 100, res: 20, takeTerr: true, destroyBld: true },
+    minor: { min: 200, max: 499, rp: 50, takeTerr: true },
+    draw: { atkRp: 25, defRp: 25 },
+    defeat: { rp: 50, destroyBld: false }
+  };
+}
+
+function defaultMoraleRules() {
+  return [
+    { id: 1, condition: 'type', operator: '=', value: 'Ligne', modifier: 1, label: 'Si Type = Ligne' },
+    { id: 2, condition: 'cost', operator: '<', value: '100', modifier: 1, label: 'Si Coût < 100 pts' },
+    { id: 3, condition: 'cost', operator: 'between', value: '100-199', modifier: 1, label: 'Si Coût 100-199 pts' },
+    { id: 4, condition: 'cost', operator: '>=', value: '200', modifier: 2, label: 'Si Coût ≥ 200 pts' },
+    { id: 5, condition: 'keyword', operator: 'contains', value: 'Personnage Nommé', modifier: -1, label: 'Si Mot-clé = Personnage Nommé' },
+    { id: 6, condition: 'keyword', operator: 'contains', value: 'Véhicule', modifier: 1, label: 'Si Mot-clé = Véhicule' },
+    { id: 7, condition: 'keyword', operator: 'contains', value: 'Monstre', modifier: 1, label: 'Si Mot-clé = Monstre' },
+    { id: 8, condition: 'grade', operator: '>=', value: '4', modifier: 1, label: 'Si Grade joueur ≥ 4' }
+  ];
+}
+
+function defaultGrades() {
+  return [
+    { id: 1, name: 'Néophyte Sanglant', minV: 0, maxV: 2, icon: '☠', color: '#8a6a5a', effects: [{ type: 'rp_bonus', value: 5, label: '+5 RP par victoire' }] },
+    { id: 2, name: 'Frère de Bataille', minV: 3, maxV: 6, icon: '⚔', color: '#9a7a5a', effects: [{ type: 'rp_bonus', value: 10, label: '+10 RP par victoire' }, { type: 'relic_slots', value: 1, label: '+1 slot relique' }] },
+    { id: 3, name: 'Vétéran Écarlate', minV: 7, maxV: 12, icon: '🗡', color: '#aa8a5a', effects: [{ type: 'rp_bonus', value: 15, label: '+15 RP par victoire' }, { type: 'relic_slots', value: 2, label: '+2 slots reliques' }] },
+    { id: 4, name: 'Champion de Guerre', minV: 13, maxV: 20, icon: '👑', color: '#ba9a5a', effects: [{ type: 'rp_bonus', value: 20, label: '+20 RP par victoire' }, { type: 'morale_bonus', value: 1, label: '+1 Moral à toutes les unités' }] },
+    { id: 5, name: 'Maître de Chapitre', minV: 21, maxV: 30, icon: '🔱', color: '#caaa6a', effects: [{ type: 'rp_bonus', value: 25, label: '+25 RP par victoire' }, { type: 'relic_legendary', value: 1, label:'Accès reliques légendaires' }] },
+    { id: 6, name: 'Seigneur des Crânes', minV: 31, maxV: 45, icon: '💀', color: '#d4a574', effects: [{ type: 'rp_bonus', value: 30, label: '+30 RP par victoire' }, { type: 'morale_bonus', value: 2, label: '+2 Moral à toutes les unités' }] },
+    { id: 7, name: 'Héraut de la Mort', minV: 46, maxV: 65, icon: '⚡', color: '#d4a574', effects: [{ type: 'rp_bonus', value: 35, label: '+35 RP par victoire' }] },
+    { id: 8, name: 'Fléau de l\'Empereur', minV: 66, maxV: 90, icon: '🌑', color: '#d4a574', effects: [{ type: 'rp_bonus', value: 40, label: '+40 RP par victoire' }] },
+    { id: 9, name: 'Archonte du Carnage', minV: 91, maxV: 120, icon: '🔥', color: '#d4a574', effects: [{ type: 'rp_bonus', value: 50, label: '+50 RP par victoire' }, { type: 'custom', value: 0, label: 'Aura de terreur' }] },
+    { id: 10, name: 'Dieu Vivant de la Guerre', minV: 121, maxV: 9999, icon: '⚜', color: '#e8c9a0', effects: [{ type: 'rp_bonus', value: 75, label: '+75 RP par victoire' }, { type: 'morale_bonus', value: 5, label: '+5 Moral à toutes les unités' }] }
+  ];
+}
+
+function generateTerritories(cols, rows) {
+  const letters = ['ALPHA','BETA','GAMMA','DELTA','EPSILON','ZETA','ETA','THETA','IOTA','KAPPA','LAMBDA','MU','NU','XI','OMICRON','PI','RHO','SIGMA','TAU','UPSILON'];
+  const romans = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+  const types = ['Normal','Forge','Agricole','Ruche','Mort','Désertique','Glacé','Volcanique','Sauvage'];
+  const terrs = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const rng = Math.random();
+      const isRuin = rng < 0.12;
+      const isUnknown = rng > 0.88;
+      terrs.push({
+        id: r * cols + c,
+        name: isUnknown ? '???' : `${romans[r] || (r+1)}-${letters[c] || String.fromCharCode(65+c)}`,
+        type: isRuin ? 'Ruine' : types[Math.floor(Math.random() * types.length)],
+        owner: null,
+        buildings: [],
+        slots: 4,
+        x: c, y: r
+      });
+    }
+  }
+  return terrs;
+}
+
+let currentUser = null;
+
+function getCurrentUser() {
+  const id = S.get('session');
+  if (!id) return null;
+  return (S.get('players') || []).find(p => p.id === id) || null;
+}
+
+function refreshCurrentUser() {
+  if (!currentUser) return;
+  currentUser = getCurrentUser();
+}
+
+function notify(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = 'notif-item';
+  el.textContent = msg;
+  document.getElementById('notif').appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+function addLog(type, msg) {
+  const logs = S.get('logs') || [];
+  logs.unshift({ id: Date.now(), type, msg, date: new Date().toLocaleString('fr-FR') });
+  if (logs.length > 500) logs.pop();
+  S.set('logs', logs);
+}
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (id === 'dashboard') loadDashboard();
+  if (id === 'profile') loadProfile();
+  if (id === 'alliance') loadAlliance();
+  if (id === 'map') renderMap();
+  if (id === 'battles') loadBattles();
+  if (id === 'rankings') loadRankings();
+  if (id === 'admin') { adminTab('players', document.querySelector('#admin-tabs .tab-btn')); }
+}
+
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+function doLogin() {
+  const u = document.getElementById('l-user').value.trim();
+  const p = document.getElementById('l-pass').value;
+  const players = S.get('players') || [];
+  const player = players.find(x => x.username === u && x.password === p);
+  if (!player) { showMsg('login-msg', 'Identifiants incorrects.', 'err'); return; }
+  S.set('session', player.id);
+  currentUser = player;
+  afterLogin();
+}
+
+function doRegister() {
+  const u = document.getElementById('r-user').value.trim();
+  const p = document.getElementById('r-pass').value;
+  const f = document.getElementById('r-faction').value.trim();
+  const av = document.getElementById('r-avatar').value.trim();
+  const bn = document.getElementById('r-banner').value.trim();
+  if (!u || !p || !f) { showMsg('reg-msg', 'Pseudo, mot de passe et faction requis.', 'err'); return; }
+  if (p.length < 6) { showMsg('reg-msg', 'Mot de passe trop court (min. 6 caractères).', 'err'); return; }
+  const players = S.get('players') || [];
+  if (players.find(x => x.username === u)) { showMsg('reg-msg', 'Ce pseudo est déjà utilisé.', 'err'); return; }
+  const settings = S.get('settings') || defaultSettings();
+  const newPlayer = {
+    id: Date.now(),
+    username: u,
+    password: p,
+    faction: f,
+    avatar: av,
+    banner: bn,
+    maxArmyPoints: settings.startPts || 2000,
+    victories: 0,
+    defeats: 0,
+    totalRpEarned: 0,
+    alliance: null,
+    allianceRole: null,
+    units: [],
+    relics: [],
+    isAdmin: players.length === 0,
+    createdAt: Date.now()
+  };
+  players.push(newPlayer);
+  S.set('players', players);
+  addLog('player', `Nouveau joueur : ${u}`);
+  showMsg('reg-msg', 'Compte créé ! Vous pouvez vous connecter.', 'ok');
+  setTimeout(() => showPage('login'), 1500);
+}
+
+function doLogout() {
+  S.set('session', null);
+  currentUser = null;
+  document.getElementById('nav').style.display = 'none';
+  document.getElementById('user-bar').style.display = 'none';
+  showPage('login');
+}
+
+function afterLogin() {
+  document.getElementById('nav').style.display = 'flex';
+  document.getElementById('user-bar').style.display = 'flex';
+  document.getElementById('ub-name').textContent = currentUser.username;
+  if (currentUser.isAdmin) document.getElementById('ub-admin').classList.remove('hidden');
+  document.getElementById('nav-admin').style.display = currentUser.isAdmin ? 'block' : 'none';
+  updateGradeBadge();
+  processResourceGeneration();
+  showPage('dashboard', document.querySelector('#nav .nav-btn'));
+}
+
+function updateGradeBadge() {
+  if (!currentUser) return;
+  const grade = getPlayerGrade(currentUser);
+  document.getElementById('ub-grade').textContent = grade ? grade.name : 'Néophyte';
+}
+
+function getPlayerGrade(player) {
+  const grades = S.get('grades') || [];
+  for (let i = grades.length - 1; i >= 0; i--) {
+    if (player.victories >= grades[i].minV) return grades[i];
+  }
+  return grades[0] || null;
+}
+
+function getPlayerGradeIndex(player) {
+  const grades = S.get('grades') || [];
+  for (let i = grades.length - 1; i >= 0; i--) {
+    if (player.victories >= grades[i].minV) return i + 1;
+  }
+  return 1;
+}
+
+// FIX 1: DASHBOARD CLIQUABLE
+function loadDashboard() {
+  const players = S.get('players') || [];
+  const alliances = S.get('alliances') || [];
+  const territories = S.get('territories') || [];
+  const battles = S.get('battles') || [];
+  document.getElementById('ds-players').textContent = players.length;
+  document.getElementById('ds-alliances').textContent = alliances.length;
+  document.getElementById('ds-territories').textContent = territories.filter(t => t.owner).length + '/' + territories.length;
+  document.getElementById('ds-battles').textContent = battles.length;
+  const logs = (S.get('logs') || []).slice(0, 8);
+  const newsEl = document.getElementById('ds-news');
+  if (logs.length === 0) { newsEl.innerHTML = '<p class="text-muted">Aucune nouvelle.</p>'; }
+  else { newsEl.innerHTML = logs.map(l => `<div style="padding:8px 0;border-bottom:1px solid var(--brd);font-size:0.85rem"><span class="text-muted" style="font-size:0.75rem">${l.date}</span><br>${l.msg}</div>`).join(''); }
+
+  // CARTES CLIQUABLES
+  document.querySelectorAll('#page-dashboard .card').forEach((card, i) => {
+    card.style.cursor = 'pointer';
+    const targets = ['profile', 'map', 'profile', 'alliance'];
+    card.onclick = () => {
+      const btn = document.querySelector(`[onclick*="${targets[i]}"]`);
+      showPage(targets[i], btn);
+    };
+  });
+}
+
+function loadProfile() {
+  refreshCurrentUser();
+  if (!currentUser) return;
+  document.getElementById('prof-name').textContent = currentUser.username;
+  document.getElementById('prof-faction').textContent = currentUser.faction;
+  document.getElementById('prof-pts').textContent = currentUser.maxArmyPoints || 2000;
+  document.getElementById('prof-v').textContent = currentUser.victories || 0;
+  document.getElementById('prof-d').textContent = currentUser.defeats || 0;
+  if (currentUser.avatar) {
+    document.getElementById('prof-avatar').style.backgroundImage = `url(${currentUser.avatar})`;
+    document.getElementById('prof-avatar').textContent = '';
+  }
+  if (currentUser.banner) {
+    document.getElementById('prof-banner').style.backgroundImage = `url(${currentUser.banner})`;
+  }
+  const grade = getPlayerGrade(currentUser);
+  if (grade) {
+    document.getElementById('prof-grade-badge').textContent = `${grade.icon} ${grade.name}`;document.getElementById('prof-grade-detail').innerHTML = `
+      <div style="font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);margin-bottom:10px">${grade.icon} ${grade.name}</div>
+      <p class="text-muted mb10">${grade.minV}–${grade.maxV === 9999 ? '∞' : grade.maxV} victoires</p>
+      ${grade.effects.map(e => `<div style="padding:6px 0;border-bottom:1px solid var(--brd);font-size:0.85rem">✦ ${e.label}</div>`).join('')}
+    `;
+  }
+  renderUnits();
+}
+
+function renderUnits() {
+  if (!currentUser) return;
+  const units = currentUser.units || [];
+  const el = document.getElementById('prof-units');
+
+  // Séparation unités actives / KIA
+  const activeUnits = units.filter(u => u.status !== 'KIA');
+  const kiaUnits = units.filter(u => u.status === 'KIA');
+
+  // Total actif = somme des unités vivantes (Reserve Unités)
+  const totalActif = activeUnits.reduce((s, u) => s + (u.cost || 0), 0);
+  const maxPts = currentUser.maxArmyPoints || 2000;
+
+  let html = `
+    <div style="background:var(--bg3);border:1px solid var(--brd-g);padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div class="stat-lbl">Réserve Unités (vivantes)</div>
+        <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:${totalActif > maxPts ? '#d49090' : 'var(--gold)'}">
+          ${totalActif} / ${maxPts} pts
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="stat-lbl">Roster Max</div>
+        <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold)">${maxPts} pts</div>
+      </div>
+    </div>
+  `;
+
+  // UNITÉS ACTIVES
+  if (activeUnits.length > 0) {
+    html += `<h5class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:2px">⚔ Réserve Unités (${activeUnits.length})</h5>`;
+    html += activeUnits.map(u => {
+      const morMax = u.moraleMax || 1;
+      const morCur = u.moraleCurrent !== undefined ? u.moraleCurrent : morMax;
+      const pips = Array.from({length: morMax}, (_, i) =>
+        `<div class="morale-pip ${i < morCur ? 'full' : 'empty'}"></div>`
+      ).join('');
+      return `<div class="unit-row">
+        <div class="unit-info">
+          <div class="unit-name">${u.customName || u.realName}</div>
+          <div class="unit-sub">${u.realName} · ${u.type} · ${u.cost} pts · ${u.keywords || ''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="unit-morale">${pips}</div>
+          <span class="text-muted" style="font-size:0.75rem">${morCur}/${morMax}</span>
+          <button class="btn btn-xs" onclick="openUnitDetail(${u.id})">Détail</button>
+          <button class="btn btn-xs btn-d" onclick="markUnitDestroyed(${u.id})">-1Moral</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    html += `<p class="text-muted mb10">Aucune unité active. Ajoutez votre première unité.</p>`;
+  }
+
+  // UNITÉS KIA — affichées séparément, ne comptent PAS dans le total
+  if (kiaUnits.length > 0) {
+    html += `
+      <hr class="divider">
+      <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:2px;color:#d49090">💀 Pertes au combat (${kiaUnits.length})</h5>
+      <p class="text-muted mb10" style="font-size:0.78rem">Ces unités ne comptent plus dans votre réserve. Réquisitionnez de nouvelles unités pour les remplacer.</p>
+    `;
+    html += kiaUnits.map(u => `
+      <div class="unit-row kia" style="opacity:0.5;border-color:#5a3a3a">
+        <div class="unit-info">
+          <div class="unit-name" style="color:#d49090">${u.customName || u.realName}</div>
+          <div class="unit-sub">${u.realName} · ${u.type} · ${u.cost} pts</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="badge kia">Perdu au combat</span>
+          <button class="btn btn-xs btn-d" onclick="deleteUnit(${u.id})">Retirer</button>
+        </div>
+      </div>`
+    ).join('');
+  }
+
+  el.innerHTML = html;
+}
+function markUnitDestroyed(unitId) {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  const ui = players[pi].units.findIndex(u => u.id === unitId);
+  if (ui< 0) return;
+  const unit = players[pi].units[ui];
+  if (unit.moraleCurrent > 0) {
+    unit.moraleCurrent -= 1;
+    if (unit.moraleCurrent <= 0) {
+      unit.status = 'KIA';
+      unit.moraleCurrent = 0;
+      notify(`${unit.customName || unit.realName} est définitivement perdu au combat !`, 'err');
+      addLog('battle', `Unité KIA : ${unit.customName || unit.realName} (${currentUser.username})`);
+    } else {
+      notify(`${unit.customName || unit.realName} : Moral ${unit.moraleCurrent}/${unit.moraleMax}`);
+    }
+  }
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  renderUnits();
+}
+
+function openUnitDetail(unitId) {
+  refreshCurrentUser();
+  const unit = (currentUser.units || []).find(u => u.id === unitId);
+  if (!unit) return;
+  document.getElementById('mu-title').textContent = unit.customName || unit.realName;
+  document.getElementById('mu-content').innerHTML = `
+    <div class="g2mb10">
+      <div class="fg"><label>Nom personnalisé</label><input type="text" id="ud-cname" value="${unit.customName || ''}"></div>
+      <div class="fg"><label>Nom40K</label><input type="text" id="ud-rname" value="${unit.realName || ''}"></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Coût (pts)</label><input type="number" id="ud-cost" value="${unit.cost || 0}"></div>
+      <div class="fg"><label>Type</label>
+        <select id="ud-type">
+          ${['QG','Ligne','Élite','Attaque Rapide','Soutien Lourd','Fortification'].map(t => `<option ${unit.type===t?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Mots-clés (séparés par virgules)</label><input type="text" id="ud-kw" value="${unit.keywords || ''}"></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-p" onclick="saveUnitDetail(${unitId})">Sauvegarder</button>
+      <button class="btn btn-d" onclick="deleteUnit(${unitId})">Supprimer</button>
+    </div>
+  `;
+  openModal('modal-unit');
+}
+
+function saveUnitDetail(unitId) {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  const ui = players[pi].units.findIndex(u => u.id === unitId);
+  const unit = players[pi].units[ui];
+  unit.customName = document.getElementById('ud-cname').value.trim();
+  unit.realName = document.getElementById('ud-rname').value.trim();
+  unit.cost = parseInt(document.getElementById('ud-cost').value) || 0;
+  unit.type = document.getElementById('ud-type').value;
+  unit.keywords = document.getElementById('ud-kw').value.trim();
+  unit.moraleMax = calcMorale(unit, currentUser);
+  if (unit.moraleCurrent > unit.moraleMax) unit.moraleCurrent = unit.moraleMax;
+  S.set('players', players);
+  currentUser = players[pi];
+  closeModal('modal-unit');
+  renderUnits();
+  notify('Unité mise à jour');
+}
+
+function deleteUnit(unitId) {
+  if (!confirm('Supprimer cette unité ?')) return;
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  players[pi].units = players[pi].units.filter(u => u.id !== unitId);
+  S.set('players', players);
+  currentUser = players[pi];
+  closeModal('modal-unit');
+  renderUnits();
+}
+
+function openAddUnit() {
+  document.getElementById('mu-title').textContent = 'Ajouter une unité';
+  document.getElementById('mu-content').innerHTML = `
+    <div class="g2 mb10">
+      <div class="fg"><label>Nom personnalisé</label><input type="text" id="nu-cname" placeholder="Ex: Team Bleue"></div>
+      <div class="fg"><label>Nom 40K</label><input type="text" id="nu-rname" placeholder="Ex: Intercessors Primaris"></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Coût (pts)</label><input type="number" id="nu-cost" placeholder="120" min="0"></div>
+      <div class="fg"><label>Type</label>
+        <select id="nu-type">
+          <option>QG</option><option>Ligne</option><option>Élite</option>
+          <option>Attaque Rapide</option><option>Soutien Lourd</option><option>Fortification</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg"><label>Mots-clés (séparés par virgules)</label><input type="text" id="nu-kw" placeholder="Ex: Infanterie, Psyker"></div>
+    <button class="btn btn-p mt10" onclick="addUnit()">Ajouter l'unité</button>
+  `;
+  openModal('modal-unit');
+}
+
+function addUnit() {
+  const cname = document.getElementById('nu-cname').value.trim();
+  const rname = document.getElementById('nu-rname').value.trim();
+  const cost = parseInt(document.getElementById('nu-cost').value) || 0;
+  const type = document.getElementById('nu-type').value;
+  const kw = document.getElementById('nu-kw').value.trim();
+  if (!rname) { notify('Nom 40K requis', 'err'); return; }
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  const unit = {
+    id: Date.now(),
+    customName: cname,
+    realName: rname,
+    cost, type,
+    keywords: kw,
+    status: 'Actif',
+    moraleMax: 1,
+    moraleCurrent: 1,
+    history: []
+  };
+  unit.moraleMax = calcMorale(unit, currentUser);
+  unit.moraleCurrent = unit.moraleMax;
+  players[pi].units.push(unit);
+  S.set('players', players);
+  currentUser = players[pi];
+  closeModal('modal-unit');
+  renderUnits();
+  notify('Unité ajoutée');
+}
+
+function calcMorale(unit, player) {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  let total = config.base || 1;
+  const rules = config.rules || [];
+  const gradeIdx = getPlayerGradeIndex(player);
+  for (const rule of rules) {
+    let match = false;
+    if (rule.condition === 'type') {
+      if (rule.operator === '=') match = unit.type === rule.value;
+    } else if (rule.condition === 'cost') {
+      const cost = unit.cost || 0;
+      const val = parseFloat(rule.value);
+      if (rule.operator === '<') match = cost < val;
+      else if (rule.operator === '>') match = cost > val;
+      else if (rule.operator === '=') match = cost === val;else if (rule.operator === '>=') match = cost >= val;
+      else if (rule.operator === '<=') match = cost <= val;
+      else if (rule.operator === 'between') {
+        const [a, b] = rule.value.split('-').map(Number);
+        match = cost >= a && cost <= b;
+      }
+    } else if (rule.condition === 'keyword') {
+      const kws = (unit.keywords || '').toLowerCase();
+      if (rule.operator === 'contains') match = kws.includes(rule.value.toLowerCase());} else if (rule.condition === 'grade') {
+      const val = parseInt(rule.value);
+      if (rule.operator === '>=') match = gradeIdx >= val;
+      else if (rule.operator === '>') match = gradeIdx > val;
+      else if (rule.operator === '=') match = gradeIdx === val;
+      else if (rule.operator === '<=') match = gradeIdx <= val;
+    }
+    if (match) total += parseInt(rule.modifier) || 0;
+  }
+  return Math.max(1, total);
+}
+
+function openEditProfile() {
+  refreshCurrentUser();
+  document.getElementById('mep-content').innerHTML = `
+    <div class="fg"><label>Pseudo</label><input type="text" id="ep-user" value="${currentUser.username}"></div>
+    <div class="fg"><label>Faction</label><input type="text" id="ep-faction" value="${currentUser.faction}"></div>
+    <div class="fg"><label>Avatar (URL)</label><input type="url" id="ep-avatar" value="${currentUser.avatar || ''}"></div>
+    <div class="fg"><label>Bannière (URL)</label><input type="url" id="ep-banner" value="${currentUser.banner || ''}"></div>
+    <div class="fg"><label>Nouveau mot de passe (laisser vide pour ne pas changer)</label><input type="password" id="ep-pass" placeholder="••••••••"></div>
+    <button class="btn btn-p mt10" onclick="saveProfile()">Sauvegarder</button>
+  `;
+  openModal('modal-edit-player');
+}
+
+function saveProfile() {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  const newUser = document.getElementById('ep-user').value.trim();
+  if (newUser && newUser !== currentUser.username) {
+    if (players.find(p => p.username === newUser && p.id !== currentUser.id)) {
+      notify('Ce pseudo est déjà pris', 'err'); return;
+    }
+    players[pi].username = newUser;}
+  players[pi].faction = document.getElementById('ep-faction').value.trim() || players[pi].faction;
+  players[pi].avatar = document.getElementById('ep-avatar').value.trim();
+  players[pi].banner = document.getElementById('ep-banner').value.trim();
+  const newPass = document.getElementById('ep-pass').value;
+  if (newPass && newPass.length >= 6) players[pi].password = newPass;
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  closeModal('modal-edit-player');
+  loadProfile();
+  updateGradeBadge();
+  notify('Profil mis à jour');
+}
+
+function loadAlliance() {
+  refreshCurrentUser();
+  if (!currentUser) return;
+  const alliances = S.get('alliances') || [];
+  const joinList = document.getElementById('all-join-list');
+  const available = alliances.filter(a => !currentUser.alliance || currentUser.alliance !== a.id);
+  joinList.innerHTML = available.length === 0 ? '<p class="text-muted">Aucune alliance à rejoindre.</p>' :
+    available.map(a => `<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--brd)">
+      <span style="color:var(--gold)">${a.name}</span>
+      <button class="btn btn-sm" onclick="joinAlliance(${a.id})">Rejoindre</button>
+    </div>`).join('');
+  if (!currentUser.alliance) {
+    document.getElementById('all-no-alliance').style.display = 'block';
+    document.getElementById('all-in-alliance').style.display = 'none';
+  } else {
+    document.getElementById('all-no-alliance').style.display = 'none';
+    document.getElementById('all-in-alliance').style.display = 'block';const alliance = alliances.find(a => a.id === currentUser.alliance);
+    if (!alliance) return;
+    document.getElementById('all-name-display').textContent = alliance.name;
+    document.getElementById('all-role-display').textContent = currentUser.allianceRole || 'Soldat';
+    if (alliance.banner) document.getElementById('all-banner-display').style.backgroundImage = `url(${alliance.banner})`;
+    const res = alliance.resources || {};
+    document.getElementById('all-resources').innerHTML = `
+      <div class="res-item"><span class="res-icon">⚜</span><div><div class="res-label">Réquisition</div><div class="res-val">${res.rp || 0}</div></div></div>
+      <div class="res-item"><span class="res-icon">⚙</span><div><div class="res-label">Fer</div><div class="res-val">${res.fer || 0}</div></div></div>
+      <div class="res-item"><span class="res-icon">💎</span><div><div class="res-label">Adamantium</div><div class="res-val">${res.adamantium || 0}</div></div></div>
+      <div class="res-item"><span class="res-icon">🔥</span><div><div class="res-label">Prométhéum</div><div class="res-val">${res.prometheum || 0}</div></div></div>
+      <div class="res-item"><span class="res-icon">📿</span><div><div class="res-label">Rel. Anciennes</div><div class="res-val">${res.relics || 0}</div></div></div>
+    `;
+    const players = S.get('players') || [];
+    const members = players.filter(p => p.alliance === alliance.id);
+    document.getElementById('all-members-list').innerHTML = members.map(m => {
+      const grade = getPlayerGrade(m);
+      return `<div class="flex-between" style="padding:8px 0;border-bottom:1px solid var(--brd)">
+        <div>
+          <span style="color:var(--gold);font-size:0.88rem">${m.username}</span>
+          <span class="text-muted" style="font-size:0.75rem;margin-left:8px">${m.allianceRole || 'Soldat'}</span>
+        </div>
+        <span class="text-muted" style="font-size:0.75rem">${grade ? grade.name : '—'}</span>
+      </div>`;
+    }).join('') || '<p class="text-muted">Aucun membre.</p>';
+    const territories = S.get('territories') || [];
+    const ownedTerrs = territories.filter(t => t.owner === alliance.id);
+    document.getElementById('all-territories-list').innerHTML = ownedTerrs.length === 0 ?
+      '<p class="text-muted">Aucun territoire contrôlé.</p>' :
+      ownedTerrs.map(t => `<div style="padding:6px 0;border-bottom:1px solid var(--brd);font-size:0.85rem;color:var(--gold)">${t.name}<span class="text-muted">(${t.buildings.length}/${t.slots} bât.)</span></div>`).join('');
+    renderAllianceBuildings(alliance);
+    const settings = S.get('settings') || defaultSettings();
+    document.getElementById('all-pts-cost').textContent = settings.ptsCost || 100;
+    const canBuild = ['Seigneur de Guerre','Capitaine'].includes(currentUser.allianceRole);
+    document.getElementById('all-build-btn').style.display = canBuild ? 'inline-block' : 'none';}
+}
+
+function renderAllianceBuildings(alliance) {
+  const el = document.getElementById('all-buildings-list');
+  const blds = alliance.buildings || [];
+  if (blds.length === 0) { el.innerHTML = '<p class="text-muted">Aucun bâtiment construit.</p>'; return; }
+  const templates = S.get('buildings_templates') || [];
+  el.innerHTML = blds.map(b => {
+    const tmpl = templates.find(t => t.id === b.templateId);
+    return `<div class="unit-row">
+      <div class="unit-info">
+        <div class="unit-name">${tmpl ? tmpl.icon + ' ' + tmpl.name : b.name} — Niveau ${b.level}</div>
+        <div class="unit-sub">Territoire : ${b.territoryName || '?'}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-xs btn-s" onclick="upgradeBuilding(${alliance.id},'${b.id}')">Améliorer</button>
+        <button class="btn btn-xs btn-d" onclick="demolishBuilding(${alliance.id},'${b.id}')">Démolir</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function createAlliance() {
+  const name = document.getElementById('all-new-name').value.trim();
+  const color = document.getElementById('all-new-color').value;
+  const banner = document.getElementById('all-new-banner').value.trim();
+  if (!name) { notify('Nom requis', 'err'); return; }
+  const alliances = S.get('alliances') || [];
+  if (alliances.find(a => a.name === name)) { notify('Ce nom est déjà pris', 'err'); return; }
+  const newAlliance = {
+    id: Date.now(),
+    name, color, banner,
+    leader: currentUser.id,
+    resources: { rp: 0, fer: 0, adamantium: 0, prometheum: 0, relics: 0 },
+    buildings: [],
+    createdAt: Date.now()
+  };
+  alliances.push(newAlliance);
+  S.set('alliances', alliances);
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  players[pi].alliance = newAlliance.id;
+  players[pi].allianceRole = 'Seigneur de Guerre';
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  addLog('player', `Alliance créée : ${name} par ${currentUser.username}`);
+  notify(`Alliance "${name}" créée !`);
+  loadAlliance();
+}
+
+function joinAlliance(allianceId) {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  players[pi].alliance = allianceId;
+  players[pi].allianceRole = 'Soldat';
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  const alliances = S.get('alliances') || [];
+  const a = alliances.find(x => x.id === allianceId);
+  addLog('player', `${currentUser.username} a rejoint l'alliance ${a ? a.name : allianceId}`);
+  notify('Alliance rejointe !');
+  loadAlliance();
+}
+
+function leaveAlliance() {
+  if (!confirm('Quitter l\'alliance ?')) return;
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  players[pi].alliance = null;
+  players[pi].allianceRole = null;
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  notify('Vous avez quitté l\'alliance');
+  loadAlliance();
+}
+
+function buyArmyPoints() {
+  const qty = parseInt(document.getElementById('all-pts-amount').value) || 0;
+  if (qty <= 0) { notify('Quantité invalide', 'err'); return; }
+  const settings = S.get('settings') || defaultSettings();
+  const cost = qty * (settings.ptsCost || 100);
+  refreshCurrentUser();
+  if (!currentUser.alliance) { notify('Vous devez être dans une alliance', 'err'); return; }
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === currentUser.alliance);
+  if (alliances[ai].resources.rp < cost) { notify(`Réquisition insuffisante (besoin: ${cost}RP)`, 'err'); return; }
+  alliances[ai].resources.rp -= cost;
+  S.set('alliances', alliances);
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === currentUser.id);
+  players[pi].maxArmyPoints = (players[pi].maxArmyPoints || 2000) + qty * 100;
+  S.set('players', players);
+  currentUser = players[pi];
+  S.set('session', currentUser.id);
+  notify(`+${qty * 100} points d'armée achetés pour ${cost} RP`);
+  loadAlliance();
+  loadProfile();
+}
+
+function openBuildModal() {
+  if (!currentUser.alliance) { notify('Rejoignez une alliance d\'abord', 'err'); return; }
+  const templates = S.get('buildings_templates') || [];
+  const alliances = S.get('alliances') || [];
+  const alliance = alliances.find(a => a.id === currentUser.alliance);
+  const territories = (S.get('territories') || []).filter(t => t.owner === currentUser.alliance);
+  if (templates.length === 0) { notify('Aucun bâtiment disponible. L\'admin doit en créer.', 'err'); return; }
+  if (territories.length === 0) { notify('Vous n\'avez aucun territoire', 'err'); return; }
+  document.getElementById('mbt-content').innerHTML = `
+    <div class="fg"><label>Bâtiment</label>
+      <select id="bld-tmpl">${templates.map(t => `<option value="${t.id}">${t.icon} ${t.name}</option>`).join('')}</select>
+    </div>
+    <div class="fg"><label>Territoire</label>
+      <select id="bld-terr">${territories.map(t => `<option value="${t.id}">${t.name} (${t.buildings.length}/${t.slots} slots)</option>`).join('')}</select>
+    </div>
+    <div id="bld-cost-info" class="msg info mb10"></div>
+    <button class="btn btn-p" onclick="constructBuilding()">Construire</button>
+  `;
+  document.getElementById('bld-tmpl').addEventListener('change', updateBuildCostInfo);
+  updateBuildCostInfo();
+  openModal('modal-build-territory');
+}
+
+function updateBuildCostInfo() {
+  const tmplId = parseInt(document.getElementById('bld-tmpl').value);
+  const templates = S.get('buildings_templates') || [];
+  const tmpl = templates.find(t => t.id === tmplId);
+  if (!tmpl || !tmpl.levels || !tmpl.levels[0]) return;
+  const c = tmpl.levels[0].cost;
+  document.getElementById('bld-cost-info').textContent = `Coût : ${c.rp||0} RP, ${c.fer||0} Fer, ${c.adamantium||0} Adamantium, ${c.prometheum||0} Prométhéum, ${c.relics||0} Rel. Anc.`;
+}
+
+function constructBuilding() {
+  const tmplId = parseInt(document.getElementById('bld-tmpl').value);
+  const terrId = parseInt(document.getElementById('bld-terr').value);
+  const templates = S.get('buildings_templates') || [];
+  const tmpl = templates.find(t => t.id === tmplId);
+  if (!tmpl || !tmpl.levels || !tmpl.levels[0]) { notify('Bâtiment invalide', 'err'); return; }
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === terrId);
+  if (territories[ti].buildings.length >= territories[ti].slots) { notify('Plus de slots disponibles sur ce territoire', 'err'); return; }
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === currentUser.alliance);
+  const res = alliances[ai].resources;
+  const cost = tmpl.levels[0].cost;
+  if (res.rp < (cost.rp||0) || res.fer < (cost.fer||0) || res.adamantium < (cost.adamantium||0) || res.prometheum < (cost.prometheum||0) || res.relics < (cost.relics||0)) {
+    notify('Ressources insuffisantes', 'err'); return;
+  }
+  res.rp -= cost.rp||0; res.fer -= cost.fer||0; res.adamantium -= cost.adamantium||0; res.prometheum -= cost.prometheum||0; res.relics -= cost.relics||0;
+  const newBld = { id: Date.now(), templateId: tmplId, name: tmpl.name, level:1, territoryId: terrId, territoryName: territories[ti].name, builtAt: Date.now(), lastGenerated: Date.now() };
+  alliances[ai].buildings.push(newBld);
+  territories[ti].buildings.push(newBld.id);
+  S.set('alliances', alliances);
+  S.set('territories', territories);
+  addLog('building', `Bâtiment construit : ${tmpl.name} sur ${territories[ti].name} (${alliances[ai].name})`);
+  closeModal('modal-build-territory');
+  notify(`${tmpl.name} construit !`);
+  loadAlliance();
+}
+
+function upgradeBuilding(allianceId, bldId) {
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === allianceId);
+  const bi = alliances[ai].buildings.findIndex(b => String(b.id) === String(bldId));
+  if (bi < 0) return;
+  const bld = alliances[ai].buildings[bi];
+  const templates = S.get('buildings_templates') || [];
+  const tmpl = templates.find(t => t.id === bld.templateId);
+  if (!tmpl) return;
+  const nextLevel = bld.level + 1;
+  if (!tmpl.levels || !tmpl.levels[nextLevel - 1]) { notify('Niveau maximum atteint', 'err'); return; }
+  const cost = tmpl.levels[nextLevel - 1].cost;
+  const res = alliances[ai].resources;
+  if (res.rp < (cost.rp||0) || res.fer < (cost.fer||0) || res.adamantium < (cost.adamantium||0) || res.prometheum < (cost.prometheum||0) || res.relics < (cost.relics||0)) {
+    notify('Ressources insuffisantes', 'err'); return;
+  }
+  res.rp -= cost.rp||0; res.fer -= cost.fer||0; res.adamantium -= cost.adamantium||0; res.prometheum -= cost.prometheum||0; res.relics -= cost.relics||0;
+  alliances[ai].buildings[bi].level = nextLevel;
+  S.set('alliances', alliances);
+  addLog('building', `Bâtiment amélioré : ${bld.name} → Niveau ${nextLevel}`);
+  notify(`${bld.name} amélioré au niveau ${nextLevel} !`);
+  loadAlliance();
+}
+
+function demolishBuilding(allianceId, bldId) {
+  if (!confirm('Démolir ce bâtiment ?')) return;
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === allianceId);
+  const bld = alliances[ai].buildings.find(b => String(b.id) === String(bldId));
+  alliances[ai].buildings = alliances[ai].buildings.filter(b => String(b.id) !== String(bldId));
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === bld.territoryId);
+  if (ti >= 0) territories[ti].buildings = territories[ti].buildings.filter(id => String(id) !== String(bldId));
+  S.set('alliances', alliances);
+  S.set('territories', territories);
+  notify('Bâtiment démoli');
+  loadAlliance();
+}
+
+function renderMap() {
+  const settings = S.get('settings') || defaultSettings();
+  const cols = settings.mapCols || 10;
+  const territories = S.get('territories') || [];
+  const alliances = S.get('alliances') || [];
+  const filter = document.getElementById('map-filter') ? document.getElementById('map-filter').value : 'all';
+  const grid = document.getElementById('map-grid');
+  const size = Math.max(90, Math.min(140, Math.floor((window.innerWidth - 120) / cols)));
+  grid.style.gridTemplateColumns = `repeat(${cols}, ${size}px)`;
+  const legend = document.getElementById('map-legend');
+  legend.innerHTML = `
+    <div class="legend-item"><div class="legend-dot" style="border-color:#555;border-style:dashed"></div><span>Neutre</span></div>
+    <div class="legend-item"><div class="legend-dot" style="border-color:#444;border-style:dashed;opacity:0.5"></div><span>Ruine</span></div>
+    ${alliances.map((a, i) => `<div class="legend-item"><div class="legend-dot" style="border-color:${a.color || allianceColor(i)}"></div><span>${a.name}</span></div>`).join('')}
+  `;
+  let filtered = territories;
+  if (filter === 'neutral') filtered = territories.filter(t => !t.owner);
+  if (filter === 'owned') filtered = territories.filter(t => t.owner);
+  grid.innerHTML = filtered.map(t => {
+    let cls = 'terr';
+    let style = `width:${size}px;height:${size}px;`;
+    let nameStyle = '';
+    if (t.type === 'Ruine') { cls += ' ruined'; }
+    else if (!t.owner) { cls += ' neutral'; }
+    else {
+      cls += ' owned';
+      const ai = alliances.findIndex(a => a.id === t.owner);
+      const color = ai >= 0 ? (alliances[ai].color || allianceColor(ai)) : '#888';
+      style += `border-color:${color};border-width:3px;`;
+      nameStyle = `color:${color};`;
+    }
+    const ownerAlliance = t.owner ? alliances.find(a => a.id === t.owner) : null;
+    return `<div class="${cls}" style="${style}" onclick="showTerritory(${t.id})">
+      <div class="terr-name" style="${nameStyle}">${t.name}</div>
+      ${ownerAlliance ? `<div class="terr-owner">${ownerAlliance.name}</div>` : ''}
+      ${t.buildings.length > 0 ? `<div class="terr-bld">${t.buildings.length}/${t.slots}🏛</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function allianceColor(index) {
+  const colors = ['#c0522a','#2a5fc0','#2ac05a','#c0b82a','#9a2ac0','#2ac0b8','#c02a7a','#7ac02a'];
+  return colors[index % colors.length];
+}
+
+function showTerritory(id) {
+  const territories = S.get('territories') || [];
+  const t = territories.find(x => x.id === id);
+  if (!t) return;
+  const alliances = S.get('alliances') || [];
+  const owner = t.owner ? alliances.find(a => a.id === t.owner) : null;
+  const templates = S.get('buildings_templates') || [];
+  const cons = S.get('consequences') || defaultConsequences();
+  document.getElementById('mt-title').textContent = t.name;
+  let html = `
+    <div class="g2mb20">
+      <div><div class="stat-lbl">Type</div><div class="text-gold">${t.type}</div></div>
+      <div><div class="stat-lbl">Statut</div><div class="text-gold">${owner ? `Contrôlé par ${owner.name}` : (t.type === 'Ruine' ? 'Ruines' : 'Neutre')}</div></div>
+      <div><div class="stat-lbl">Slots bâtiments</div><div class="text-gold">${t.buildings.length}/${t.slots}</div></div>
+    </div>
+  `;
+  const allBlds = alliances.flatMap(a => (a.buildings || []).filter(b => b.territoryId === id));
+  if (allBlds.length > 0) {
+    html += `<h5class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Bâtiments</h5>`;
+    html += allBlds.map(b => {
+      const tmpl = templates.find(x => x.id === b.templateId);
+      return `<div style="padding:6px 0;border-bottom:1px solid var(--brd);font-size:0.85rem">${tmpl ? tmpl.icon : '🏛'} ${b.name} — Niv. ${b.level}</div>`;
+    }).join('');html += '<br>';
+  }
+  if (currentUser) {
+    if (!t.owner && t.type !== 'Ruine') {
+      html += `<button class="btn btn-p" onclick="claimTerritory(${id})">Réquisitionner (${cons.neutralCost} RP)</button>`;
+    } else if (t.owner && t.owner !== currentUser.alliance && currentUser.alliance) {
+      html += `<button class="btn btn-d" onclick="attackTerritory(${id})">Déclarer une attaque</button>`;
+    }
+  }
+  document.getElementById('mt-content').innerHTML = html;
+  openModal('modal-territory');
+}
+
+function claimTerritory(id) {
+  if (!currentUser.alliance) { notify('Rejoignez une alliance d\'abord', 'err'); return; }
+  const cons = S.get('consequences') || defaultConsequences();
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === currentUser.alliance);
+  if (alliances[ai].resources.rp < cons.neutralCost) {
+    notify(`Réquisition insuffisante (besoin: ${cons.neutralCost} RP)`, 'err'); return;
+  }
+  alliances[ai].resources.rp -= cons.neutralCost;
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === id);
+  territories[ti].owner = currentUser.alliance;
+  S.set('alliances', alliances);
+  S.set('territories', territories);
+  addLog('territory', `Territoire réquisitionné : ${territories[ti].name} par ${alliances[ai].name}`);
+  closeModal('modal-territory');
+  notify(`Territoire ${territories[ti].name} réquisitionné !`);
+  renderMap();
+}
+
+function attackTerritory(id) {
+  closeModal('modal-territory');
+  showPage('battles', document.querySelector('[onclick*="battles"]'));
+  const territories = S.get('territories') || [];
+  const t = territories.find(x => x.id === id);
+  if (t) {
+    setTimeout(() => {
+      const sel = document.getElementById('b-territory');
+      if (sel) { sel.value = id; notify(`Territoire ${t.name} sélectionné pour la bataille`); }
+    }, 300);
+  }
+}
+
+// FIX 2: BATTLES avec détails missions
+function loadBattles() {
+  const players = S.get('players') || [];
+  const territories = S.get('territories') || [];
+  const missions = S.get('missions') || [];
+  const battles = S.get('battles') || [];
+
+  const atkSel = document.getElementById('b-attacker');
+  const defSel = document.getElementById('b-defender');
+  const terrSel = document.getElementById('b-territory');
+  const misSel = document.getElementById('b-mission');
+
+  if (!atkSel) return;atkSel.innerHTML = '<option value="">Sélectionner...</option>' + players.map(p => `<option value="${p.id}">${p.username} (${p.faction})</option>`).join('');
+  defSel.innerHTML = '<option value="">Sélectionner...</option>' + players.map(p => `<option value="${p.id}">${p.username} (${p.faction})</option>`).join('');
+  terrSel.innerHTML = '<option value="">Sélectionner...</option>' + territories.map(t => {
+    const alliances = S.get('alliances') || [];
+    const owner = t.owner ? alliances.find(a => a.id === t.owner) : null;
+    return `<option value="${t.id}">${t.name} — ${owner ? owner.name : 'Neutre'}</option>`;
+  }).join('');
+  misSel.innerHTML = '<option value="">Aucune mission</option>' + missions.filter(m => m.active).map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+
+  // AFFICHAGE DÉTAILS MISSION
+  misSel.onchange = () => {
+    const misId = parseInt(misSel.value);
+    const existing = document.getElementById('mission-detail-panel');
+    if (existing) existing.remove();
+    if (!misId) return;
+    const mission = missions.find(m => m.id === misId);
+    if (!mission) return;
+    const panel = document.createElement('div');
+    panel.id = 'mission-detail-panel';
+    panel.className = 'msg info mt10';
+    panel.style.cssText = 'border-left:2px solid var(--gold);padding:14px;background:rgba(212,165,116,0.05);margin-top:10px';
+    panel.innerHTML = `
+      <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.9rem;margin-bottom:10px">${mission.name}</div>
+      <p style="margin-bottom:8px;font-size:0.85rem"><strong style="color:var(--gold-l)">Description:</strong> ${mission.description || '—'}</p>
+      <p style="margin-bottom:8px;font-size:0.85rem"><strong style="color:var(--gold-l)">Objectif :</strong> ${mission.objective || '—'}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+        <div style="background:rgba(90,154,112,0.08);border:1px solid #5a9a70;padding:10px">
+          <div style="color:#90d4a8;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Gains Vainqueur</div>
+          <div style="font-size:0.82rem">
+            ${mission.winner?.rp ? `⚜ ${mission.winner.rp} RP<br>` : ''}
+            ${mission.winner?.fer ? `⚙ ${mission.winner.fer} Fer<br>` : ''}
+            ${mission.winner?.adamantium ? `💎 ${mission.winner.adamantium} Adamantium<br>` : ''}
+            ${mission.winner?.prometheum ? `🔥 ${mission.winner.prometheum} Prométhéum<br>` : ''}
+            ${mission.winner?.relics ? `📿 ${mission.winner.relics} Rel. Anc.<br>` : ''}${mission.winner?.custom ? `✦ ${mission.winner.custom}` : ''}
+          </div>
+        </div>
+        <div style="background:rgba(154,90,90,0.08);border:1px solid #9a5a5a;padding:10px">
+          <div style="color:#d49090;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Gains Perdant</div>
+          <div style="font-size:0.82rem">
+            ${mission.loser?.rp ? `⚜ ${mission.loser.rp} RP<br>` : ''}
+            ${mission.loser?.fer ? `⚙ ${mission.loser.fer} Fer<br>` : ''}
+            ${mission.loser?.custom ? `✦ ${mission.loser.custom}` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+    misSel.parentElement.appendChild(panel);
+  };
+
+  const pending = battles.filter(b => !b.resolved);
+  const pendEl = document.getElementById('b-pending-list');
+  pendEl.innerHTML = pending.length === 0 ? '<p class="text-muted">Aucune bataille en attente.</p>' :
+    pending.map(b => {
+      const atk = players.find(p => p.id === b.attackerId);
+      const def = players.find(p => p.id === b.defenderId);
+      const terr = territories.find(t => t.id === b.territoryId);
+      return `<div class="unit-row">
+        <div class="unit-info">
+          <div class="unit-name">${atk ? atk.username : '?'} vs ${def ? def.username : '?'}</div>
+          <div class="unit-sub">Territoire : ${terr ? terr.name : '?'} · ${new Date(b.createdAt).toLocaleDateString('fr-FR')}</div>
+        </div>
+        <button class="btn btn-sm btn-p" onclick="openBattleResult(${b.id})">Saisir résultat</button>
+      </div>`;
+    }).join('');
+
+  const resolved = battles.filter(b => b.resolved).slice(0, 20);
+  const histEl = document.getElementById('b-history');
+  histEl.innerHTML = resolved.length === 0 ? '<p class="text-muted">Aucune bataille résolue.</p>' :
+    `<table class="tbl"><thead><tr><th>Date</th><th>Attaquant</th><th>Défenseur</th><th>Territoire</th><th>Résultat</th><th>Vainqueur</th></tr></thead><tbody>` +
+    resolved.map(b => {
+      const atk = players.find(p => p.id === b.attackerId);
+      const def = players.find(p => p.id === b.defenderId);
+      const terr = territories.find(t => t.id === b.territoryId);
+      const win = players.find(p => p.id === b.winnerId);
+      return `<tr><td>${new Date(b.createdAt).toLocaleDateString('fr-FR')}</td><td>${atk ? atk.username : '?'}</td><td>${def ? def.username : '?'}</td><td>${terr ? terr.name : '?'}</td><td>${b.resultType || '?'}</td><td>${win ? win.username : '—'}</td></tr>`;
+    }).join('') + '</tbody></table>';
+}
+
+function declareBattle() {
+  const atkVal = document.getElementById('b-attacker').value;
+  const defVal = document.getElementById('b-defender').value;
+  const terrVal = document.getElementById('b-territory').value;
+  const misId = document.getElementById('b-mission').value;
+
+  if (!atkVal || atkVal === '') { notify('Sélectionnez un attaquant', 'err'); return; }
+  if (!defVal || defVal === '') { notify('Sélectionnez un défenseur', 'err'); return; }
+  if (!terrVal || terrVal === '') { notify('Sélectionnez un territoire', 'err'); return; }
+
+  const atkId = parseInt(atkVal);
+  const defId = parseInt(defVal);
+  const terrId = parseInt(terrVal);
+
+  if (isNaN(atkId) || isNaN(defId) || isNaN(terrId)) { notify('Valeurs invalides', 'err'); return; }
+  if (atkId === defId) { notify('L\'attaquant et le défenseur doivent être différents', 'err'); return; }
+
+  const battles = S.get('battles') || [];
+  const players = S.get('players') || [];
+  const territories = S.get('territories') || [];
+  const atk = players.find(p => p.id === atkId);
+  const def = players.find(p => p.id === defId);
+  const terr = territories.find(t => t.id === terrId);
+
+  if (!atk) { notify('Attaquant introuvable', 'err'); return; }
+  if (!def) { notify('Défenseur introuvable', 'err'); return; }
+  if (!terr) { notify('Territoire introuvable', 'err'); return; }
+
+  const battle = {
+    id: Date.now(),
+    attackerId: atkId,
+    defenderId: defId,
+    territoryId: terrId,
+    missionId: misId || null,
+    resolved: false,
+    createdAt: Date.now()
+  };
+  battles.push(battle);
+  S.set('battles', battles);
+  addLog('battle', `Bataille déclarée : ${atk.username} vs ${def.username} sur ${terr.name}`);
+  notify('Bataille déclarée !');loadBattles();
+}
+
+function openBattleResult(battleId) {
+  const battles = S.get('battles') || [];
+  const battle = battles.find(b => b.id === battleId);
+  if (!battle) return;
+  const players = S.get('players') || [];
+  const atk = players.find(p => p.id === battle.attackerId);
+  const def = players.find(p => p.id === battle.defenderId);
+  const atkUnits = (atk ? atk.units.filter(u => u.status !== 'KIA') : []);
+  const defUnits = (def ? def.units.filter(u => u.status !== 'KIA') : []);
+  document.getElementById('mbr-content').innerHTML = `
+    <div class="g2 mb20">
+      <div class="fg"><label>Points détruits (Attaquant)</label><input type="number" id="br-atk-pts" placeholder="0" min="0"></div>
+      <div class="fg"><label>Points détruits (Défenseur)</label><input type="number" id="br-def-pts" placeholder="0" min="0"></div></div>
+    <div class="g2 mb20">
+      <div>
+        <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Unités perdues — ${atk ? atk.username : '?'}</h5>
+        ${atkUnits.map(u => `<label style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--brd);font-size:0.85rem;cursor:pointer">
+          <input type="checkbox" class="br-atk-unit" value="${u.id}"> ${u.customName || u.realName} (${u.cost}pts)</label>`).join('') || '<p class="text-muted">Aucune unité</p>'}
+      </div>
+      <div>
+        <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Unités perdues — ${def ? def.username : '?'}</h5>
+        ${defUnits.map(u => `<label style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--brd);font-size:0.85rem;cursor:pointer">
+          <input type="checkbox" class="br-def-unit" value="${u.id}"> ${u.customName || u.realName} (${u.cost}pts)</label>`).join('') || '<p class="text-muted">Aucune unité</p>'}
+      </div>
+    </div>
+    <button class="btn btn-p" onclick="resolveBattle(${battleId})">Valider le résultat</button>
+  `;
+  openModal('modal-battle-result');
+}
+
+// FIX 6: resolveBattle() avec gains vers alliances
+function resolveBattle(battleId) {
+  const battles = S.get('battles') || [];
+  const bi = battles.findIndex(b => b.id === battleId);
+  const battle = battles[bi];
+  constatkPts = parseInt(document.getElementById('br-atk-pts').value) || 0;
+  const defPts = parseInt(document.getElementById('br-def-pts').value) || 0;
+  const atkLost = Array.from(document.querySelectorAll('.br-atk-unit:checked')).map(c => parseInt(c.value));
+  const defLost = Array.from(document.querySelectorAll('.br-def-unit:checked')).map(c => parseInt(c.value));
+  const diff = Math.abs(atkPts - defPts);
+  const cons = S.get('consequences') || defaultConsequences();
+  let resultType, winnerId, loserId;
+  if (diff >= cons.major.threshold) {
+    resultType = atkPts > defPts ? 'Victoire Majeure' : 'Défaite Majeure';
+    winnerId = atkPts > defPts ? battle.attackerId : battle.defenderId;
+    loserId = atkPts > defPts ? battle.defenderId : battle.attackerId;
+  } else if (diff >= cons.minor.min) {
+    resultType = atkPts > defPts ? 'Victoire Mineure' : 'Défaite Mineure';
+    winnerId = atkPts > defPts ? battle.attackerId : battle.defenderId;
+    loserId = atkPts > defPts ? battle.defenderId : battle.attackerId;
+  } else {
+    resultType = 'Égalité';
+    winnerId = null; loserId = null;
+  }
+  const players = S.get('players') || [];
+  const alliances = S.get('alliances') || [];
+
+  function applyMoraleLosses(playerId, lostUnitIds) {
+    const pi = players.findIndex(p => p.id === playerId);
+    if (pi < 0) return;
+    lostUnitIds.forEach(uid => {
+      const ui = players[pi].units.findIndex(u => u.id === uid);
+      if (ui < 0) return;
+      players[pi].units[ui].moraleCurrent = Math.max(0, (players[pi].units[ui].moraleCurrent || 1) - 1);
+      if (players[pi].units[ui].moraleCurrent <= 0) {
+        players[pi].units[ui].status = 'KIA';
+        addLog('battle', `Unité KIA : ${players[pi].units[ui].customName || players[pi].units[ui].realName}`);
+      }
+    });
+  }
+  applyMoraleLosses(battle.attackerId, atkLost);
+  applyMoraleLosses(battle.defenderId, defLost);
+
+  // FIX: Gains vont dans l'ALLIANCE (pas le joueur)
+  if (winnerId) {
+    const wi = players.findIndex(p => p.id === winnerId);
+    const li = players.findIndex(p => p.id === loserId);
+
+    if (wi >= 0) players[wi].victories = (players[wi].victories || 0) + 1;
+    if (li >= 0) players[li].defeats = (players[li].defeats || 0) + 1;
+
+    const winnerAlliance = wi >= 0 && players[wi].alliance ?
+      alliances.findIndex(a => a.id === players[wi].alliance) : -1;
+    const loserAlliance = li >= 0 && players[li].alliance ?
+      alliances.findIndex(a => a.id === players[li].alliance) : -1;
+
+    const grade = wi >= 0 ? getPlayerGrade(players[wi]) : null;
+    const rpBonus = grade ? (grade.effects.find(e => e.type === 'rp_bonus') || {value: 0}).value : 0;
+    const rpGain = resultType.includes('Majeure') ? (cons.major.rp || 100) : (cons.minor.rp || 50);
+
+    if (winnerAlliance >= 0) {
+      alliances[winnerAlliance].resources = alliances[winnerAlliance].resources || {};
+      alliances[winnerAlliance].resources.rp = (alliances[winnerAlliance].resources.rp || 0) + rpGain + rpBonus;
+    }
+    if (loserAlliance >= 0) {
+      alliances[loserAlliance].resources = alliances[loserAlliance].resources || {};
+      alliances[loserAlliance].resources.rp = Math.max(0, (alliances[loserAlliance].resources.rp || 0) - (cons.defeat.rp || 50));
+    }
+
+    if (battle.missionId) {
+      const missions = S.get('missions') || [];
+      const mission = missions.find(m => m.id === parseInt(battle.missionId));
+      if (mission) {
+        if (winnerAlliance >= 0 && mission.winner) {
+          const r = alliances[winnerAlliance].resources;
+          r.rp = (r.rp||0) + (mission.winner.rp||0);
+          r.fer = (r.fer||0) + (mission.winner.fer||0);
+          r.adamantium = (r.adamantium||0) + (mission.winner.adamantium||0);
+          r.prometheum = (r.prometheum||0) + (mission.winner.prometheum||0);
+          r.relics = (r.relics||0) + (mission.winner.relics||0);
+        }
+        if (loserAlliance >= 0 && mission.loser) {
+          const r = alliances[loserAlliance].resources;
+          r.rp = (r.rp||0) + (mission.loser.rp||0);
+          r.fer = (r.fer||0) + (mission.loser.fer||0);
+        }
+      }
+    }
+
+    const territories = S.get('territories') || [];
+    const ti = territories.findIndex(t => t.id === battle.territoryId);
+    if (ti >= 0 && resultType.includes('Victoire') && players[wi]) {
+      const shouldTake = resultType.includes('Majeure') ? cons.major.takeTerr : cons.minor.takeTerr;
+      if (shouldTake && players[wi].alliance) {
+        territories[ti].owner = players[wi].alliance;
+        addLog('territory', `Territoire conquis : ${territories[ti].name} par ${players[wi].username}`);
+      }
+    }S.set('territories', territories);
+    S.set('alliances', alliances);
+  } else {
+    const ai = players.findIndex(p => p.id === battle.attackerId);
+    const di = players.findIndex(p => p.id === battle.defenderId);
+    constatkAlliIdx = ai >= 0 && players[ai].alliance ? alliances.findIndex(a => a.id === players[ai].alliance) : -1;
+    const defAlliIdx = di >= 0 && players[di].alliance ? alliances.findIndex(a => a.id === players[di].alliance) : -1;
+    if (atkAlliIdx >= 0) alliances[atkAlliIdx].resources.rp = (alliances[atkAlliIdx].resources.rp||0) + (cons.draw.atkRp||25);
+    if (defAlliIdx >= 0) alliances[defAlliIdx].resources.rp = (alliances[defAlliIdx].resources.rp||0) + (cons.draw.defRp||25);
+    S.set('alliances', alliances);
+  }
+  S.set('players', players);
+
+  battles[bi].resolved = true;
+  battles[bi].resultType = resultType;
+  battles[bi].winnerId = winnerId;
+  battles[bi].atkPts = atkPts;
+  battles[bi].defPts = defPts;
+  battles[bi].atkLost = atkLost;
+  battles[bi].defLost = defLost;
+  battles[bi].resolvedAt = Date.now();
+  S.set('battles', battles);
+  addLog('battle', `Bataille résolue : ${resultType} sur ${battle.territoryId}`);
+
+  if (battle.attackerId === currentUser.id || battle.defenderId === currentUser.id) {
+    currentUser = players.find(p => p.id === currentUser.id);
+    S.set('session', currentUser.id);
+  }
+  closeModal('modal-battle-result');
+  notify(`Résultat enregistré : ${resultType}`);
+  loadBattles();
+}
+
+function loadRankings() {
+  const players = S.get('players') || [];
+  const alliances = S.get('alliances') || [];
+  const territories = S.get('territories') || [];
+  const scored = players.map(p => {
+    const ownedTerrs = territories.filter(t => t.owner === p.alliance).length;
+    const score = Math.round((p.victories || 0) * 0.4 *100 +ownedTerrs * 0.3 * 10 + (p.totalRpEarned || 0) * 0.3 * 0.1);
+    return { ...p, score, ownedTerrs };
+  }).sort((a, b) => b.score - a.score);
+  const soloEl = document.getElementById('rank-solo');
+  soloEl.innerHTML = scored.map((p, i) => {
+    const numClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    const grade = getPlayerGrade(p);
+    return `<div class="rank-row">
+      <div class="rank-num ${numClass}">${i + 1}</div>
+      <div class="rank-info">
+        <div class="rank-name">${p.username}</div>
+        <div class="rank-sub">${grade ? grade.name : '—'} · ${p.faction}</div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:center">
+        <div class="text-center"><div class="stat-lbl">Victoires</div><div class="text-gold">${p.victories || 0}</div></div>
+        <div class="text-center"><div class="stat-lbl">Terr.</div><div class="text-gold">${p.ownedTerrs}</div></div>
+        <div class="rank-score">${p.score}</div>
+      </div>
+    </div>`;
+  }).join('') || '<p class="text-muted">Aucun joueur.</p>';
+
+  const allianceScored = alliances.map(a => {
+    const members = players.filter(p => p.alliance === a.id);
+    const terrs = territories.filter(t => t.owner === a.id).length;
+    const totalVict = members.reduce((s, p) => s + (p.victories || 0), 0);
+    const bld5 = (a.buildings || []).filter(b => b.level >= 5).length;
+    const score = Math.round(terrs * 0.5 * 100 + totalVict * terrs * 0.3 + bld5 * 0.2 * 100);
+    return { ...a, terrs, totalVict, bld5, score };
+  }).sort((a, b) => b.score - a.score);
+  const allEl = document.getElementById('rank-alliance');
+  allEl.innerHTML = allianceScored.map((a, i) => {
+    const numClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    return `<div class="rank-row">
+      <div class="rank-num ${numClass}">${i + 1}</div>
+      <div class="rank-info">
+        <div class="rank-name">${a.name}</div>
+        <div class="rank-sub">${a.terrs} territoires · ${a.totalVict} victoires</div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:center">
+        <div class="text-center"><div class="stat-lbl">Terr.</div><div class="text-gold">${a.terrs}</div></div>
+        <div class="text-center"><div class="stat-lbl">Bât. Niv5</div><div class="text-gold">${a.bld5}</div></div>
+        <div class="rank-score">${a.score}</div>
+      </div>
+    </div>`;
+  }).join('') || '<p class="text-muted">Aucune alliance.</p>';
+}
+
+function adminTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const pane = document.getElementById('adm-' + name);
+  if (pane) pane.classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'players') renderAdminPlayers();
+  if (name === 'grades') renderAdminGrades();
+  if (name === 'buildings') renderAdminBuildings();
+  if (name === 'relics') renderAdminRelics();
+  if (name === 'missions') renderAdminMissions();
+  if (name === 'morale') renderMoraleRules();
+  if (name === 'mapAdmin') renderAdminMap();
+  if (name === 'settings') loadSettings();
+  if (name === 'logs') renderLogs('all');
+  if (name === 'consequences') loadConsequences();
+}
+
+// FIX 3+4+5: renderAdminPlayers avecRP alliance + pts armée
+function renderAdminPlayers() {
+  const players = S.get('players') || [];
+  const alliances = S.get('alliances') || [];
+
+  document.getElementById('adm-players-list').innerHTML = `<table class="tbl">
+      <thead><tr><th>Pseudo</th><th>Faction</th><th>Pts Armée</th><th>V/D</th><th>Alliance</th><th>Admin</th><th>Actions</th></tr></thead>
+      <tbody>${players.map(p => {
+        const a = p.alliance ? alliances.find(x => x.id === p.alliance) : null;
+        return `<tr>
+          <td>${p.username} ${p.isAdmin ? '<span class="badge admin">Admin</span>' : ''}</td>
+          <td>${p.faction}</td>
+          <td><input type="number" value="${p.maxArmyPoints||2000}" id="adm-pts-${p.id}" style="width:80px;padding:4px 6px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);font-size:0.85rem"><button class="btn btn-xs btn-s" onclick="adminSetPts(${p.id})">✓</button></td>
+          <td>${p.victories||0} / ${p.defeats||0}</td>
+          <td>${a ? a.name : '—'}</td>
+          <td>${p.isAdmin ? '✓' : ''}</td>
+          <td style="white-space:nowrap">
+            <button class="btn btn-xs" onclick="adminEditPlayer(${p.id})">Éditer</button>
+            <button class="btn btn-xs" onclick="adminToggleAdmin(${p.id})">${p.isAdmin ? 'Rétrograder' : 'Promouvoir'}</button>
+            <button class="btn btn-xs btn-d" onclick="adminDeletePlayer(${p.id})">Supprimer</button>
+          </td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <hr class="divider">
+    <h4class="text-gold mb10mt20" style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase">Ressources des Alliances</h4>
+    ${alliances.length === 0 ? '<p class="text-muted">Aucune alliance.</p>' :
+      alliances.map(a => `
+        <div class="card mb10">
+          <div class="card-title">${a.name}</div>
+          <div class="fg-row">
+            <div class="fg"><label>⚜RP</label><input type="number" id="ares-rp-${a.id}" value="${a.resources?.rp||0}" min="0" style="background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);padding:6px"></div>
+            <div class="fg"><label>⚙ Fer</label><input type="number" id="ares-fer-${a.id}" value="${a.resources?.fer||0}" min="0" style="background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);padding:6px"></div>
+            <div class="fg"><label>💎 Adamantium</label><input type="number" id="ares-ada-${a.id}" value="${a.resources?.adamantium||0}" min="0" style="background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);padding:6px"></div>
+            <div class="fg"><label>🔥 Prométhéum</label><input type="number" id="ares-pro-${a.id}" value="${a.resources?.prometheum||0}" min="0" style="background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);padding:6px"></div>
+            <div class="fg"><label>📿 Rel. Anc.</label><input type="number" id="ares-rel-${a.id}" value="${a.resources?.relics||0}" min="0" style="background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);padding:6px"></div>
+          </div><button class="btn btn-sm btn-s" onclick="adminSaveAllianceResources(${a.id})">Sauvegarder les ressources</button>
+        </div>
+      `).join('')}`;
+}
+
+function adminSetPts(playerId) {
+  const val = parseInt(document.getElementById('adm-pts-' + playerId).value) || 2000;
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === playerId);
+  players[pi].maxArmyPoints = val;
+  S.set('players', players);
+  if (currentUser && currentUser.id === playerId) { currentUser.maxArmyPoints = val; }
+  notify('Points d\'armée mis à jour');
+}
+
+function adminSaveAllianceResources(allianceId) {
+  const alliances = S.get('alliances') || [];
+  const ai = alliances.findIndex(a => a.id === allianceId);
+  if (ai < 0) return;
+  alliances[ai].resources = {
+    rp: parseInt(document.getElementById('ares-rp-' + allianceId).value) || 0,
+    fer: parseInt(document.getElementById('ares-fer-' + allianceId).value) || 0,
+    adamantium: parseInt(document.getElementById('ares-ada-' + allianceId).value) || 0,
+    prometheum: parseInt(document.getElementById('ares-pro-' + allianceId).value) || 0,
+    relics: parseInt(document.getElementById('ares-rel-' + allianceId).value) || 0
+  };
+  S.set('alliances', alliances);
+  notify(`Ressources de ${alliances[ai].name} sauvegardées`);
+  addLog('player', `Ressources modifiées pour l'alliance ${alliances[ai].name}`);
+}
+
+function adminEditPlayer(playerId) {
+  const players = S.get('players') || [];
+  const p = players.find(x => x.id === playerId);
+  document.getElementById('mep-content').innerHTML = `
+    <div class="fg"><label>Pseudo</label><input type="text" id="aep-user" value="${p.username}"></div>
+    <div class="fg"><label>Faction</label><input type="text" id="aep-faction" value="${p.faction}"></div>
+    <div class="fg"><label>Avatar (URL)</label><input type="url" id="aep-avatar" value="${p.avatar||''}"></div>
+    <div class="fg"><label>Bannière (URL)</label><input type="url" id="aep-banner" value="${p.banner||''}"></div>
+    <div class="fg"><label>Nouveau mot de passe</label><input type="password" id="aep-pass" placeholder="Laisser vide pour ne pas changer"></div>
+    <div class="fg"><label>Points d'armée max</label><input type="number" id="aep-pts" value="${p.maxArmyPoints||2000}"></div>
+    <div class="fg"><label>Victoires</label><input type="number" id="aep-v" value="${p.victories||0}"></div>
+    <div class="fg"><label>Défaites</label><input type="number" id="aep-d" value="${p.defeats||0}"></div>
+    <button class="btn btn-p mt10" onclick="adminSavePlayer(${playerId})">Sauvegarder</button>
+  `;
+  openModal('modal-edit-player');
+}
+
+function adminSavePlayer(playerId) {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === playerId);
+  players[pi].username = document.getElementById('aep-user').value.trim() || players[pi].username;
+  players[pi].faction = document.getElementById('aep-faction').value.trim() || players[pi].faction;
+  players[pi].avatar = document.getElementById('aep-avatar').value.trim();
+  players[pi].banner = document.getElementById('aep-banner').value.trim();
+  const np = document.getElementById('aep-pass').value;
+  if (np && np.length >= 6) players[pi].password = np;
+  players[pi].maxArmyPoints = parseInt(document.getElementById('aep-pts').value) || 2000;
+  players[pi].victories = parseInt(document.getElementById('aep-v').value) || 0;
+  players[pi].defeats = parseInt(document.getElementById('aep-d').value) || 0;
+  S.set('players', players);
+  if (currentUser && currentUser.id === playerId) { currentUser = players[pi]; S.set('session', currentUser.id); }
+  closeModal('modal-edit-player');
+  renderAdminPlayers();
+  notify('Joueur mis à jour');addLog('player', `Joueur modifié : ${players[pi].username}`);
+}
+
+function adminToggleAdmin(playerId) {
+  const players = S.get('players') || [];
+  const pi = players.findIndex(p => p.id === playerId);
+  const admins = players.filter(p => p.isAdmin);
+  if (players[pi].isAdmin && admins.length <= 1) { notify('Impossible de rétrograder le dernier admin', 'err'); return; }
+  players[pi].isAdmin = !players[pi].isAdmin;
+  S.set('players', players);
+  if (currentUser && currentUser.id === playerId) { currentUser = players[pi]; S.set('session', currentUser.id); }
+  renderAdminPlayers();
+  notify(players[pi].isAdmin ? 'Promu admin' : 'Rétrogradé');
+}
+
+function adminDeletePlayer(playerId) {
+  if (!confirm('Supprimer définitivement ce joueur ?')) return;
+  let players = S.get('players') || [];
+  const p = players.find(x => x.id === playerId);
+  const admins = players.filter(x => x.isAdmin);
+  if (p.isAdmin && admins.length <= 1) { notify('Impossible de supprimer le dernier admin', 'err'); return; }
+  players = players.filter(x => x.id !== playerId);
+  S.set('players', players);
+  const alliances = S.get('alliances') || [];
+  alliances.forEach(a => { if (a.leader === playerId && alliances.length > 0) a.leader = null; });
+  S.set('alliances', alliances);
+  addLog('player', `Joueur supprimé : ${p ? p.username : playerId}`);
+  renderAdminPlayers();
+  notify('Joueur supprimé');
+}
+
+function renderAdminGrades() {
+  const grades = S.get('grades') || [];
+  document.getElementById('adm-grades-list').innerHTML = grades.map((g, i) => `
+    <div class="grade-row">
+      <div class="grade-order">
+        <button class="order-btn" onclick="moveGrade(${i},-1)" ${i===0?'disabled':''}>▲</button>
+        <button class="order-btn" onclick="moveGrade(${i},1)" ${i===grades.length-1?'disabled':''}>▼</button>
+      </div>
+      <div style="font-size:1.3rem;width:30px">${g.icon}</div>
+      <div style="flex:1">
+        <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:0.88rem">${g.name}</div>
+        <div class="text-muted" style="font-size:0.75rem">${g.minV}–${g.maxV ===9999 ? '∞' : g.maxV} victoires · ${g.effects.length} effet(s)</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-xs" onclick="openGradeModal(${g.id})">Éditer</button>
+        <button class="btn btn-xs btn-d" onclick="deleteGrade(${g.id})">Supprimer</button>
+      </div>
+    </div>`).join('') || '<p class="text-muted">Aucun grade configuré.</p>';
+}
+
+function moveGrade(index, dir) {
+  const grades = S.get('grades') || [];
+  const newIdx = index + dir;
+  if (newIdx < 0 || newIdx >= grades.length) return;
+  [grades[index], grades[newIdx]] = [grades[newIdx], grades[index]];
+  S.set('grades', grades);
+  renderAdminGrades();
+}
+
+function openGradeModal(gradeId) {
+  const grades = S.get('grades') || [];
+  const g = gradeId ? grades.find(x => x.id === gradeId) : null;
+  document.getElementById('mg-title').textContent = g ? 'Modifier le grade' : 'Créer un grade';
+  document.getElementById('mg-content').innerHTML = `
+    <div class="fg-row">
+      <div class="fg"><label>Nom</label><input type="text" id="gf-name" value="${g ? g.name : ''}"></div>
+      <div class="fg"><label>Icône</label><input type="text" id="gf-icon" value="${g ? g.icon : '⚔'}" style="width:80px"></div>
+      <div class="fg"><label>Couleur</label><input type="color" id="gf-color" value="${g ? g.color : '#d4a574'}"></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Victoires min</label><input type="number" id="gf-minv" value="${g ? g.minV : 0}" min="0"></div>
+      <div class="fg"><label>Victoires max (9999 = illimité)</label><input type="number" id="gf-maxv" value="${g ? g.maxV : 9999}" min="0"></div>
+    </div>
+    <div class="flex-between mb10">
+      <h5class="text-gold" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Effets</h5>
+      <button class="btn btn-xs" onclick="addGradeEffect()">+ Effet</button>
+    </div>
+    <div id="gf-effects">
+      ${(g ? g.effects : []).map((e, i) => gradeEffectHTML(e, i)).join('')}
+    </div>
+    <button class="btn btn-p mt10" onclick="saveGrade(${gradeId ||'null'})">Sauvegarder</button>
+    ${g ? `<button class="btn btn-d mt10" style="margin-left:10px" onclick="deleteGrade(${g.id});closeModal('modal-grade')">Supprimer</button>` : ''}
+  `;
+  openModal('modal-grade');
+}
+
+function gradeEffectHTML(e, i) {
+  return `<div class="effect-block" id="geff-${i}">
+    <button class="btn btn-xs btn-d remove-eff" onclick="removeGradeEffect(${i})">✕</button>
+    <div class="fg-row">
+      <div class="fg"><label>Type</label>
+        <select id="geff-type-${i}">
+          <option value="rp_bonus" ${e.type==='rp_bonus'?'selected':''}>Bonus RP par victoire</option>
+          <option value="relic_slots" ${e.type==='relic_slots'?'selected':''}>Slots reliques</option>
+          <option value="cost_reduction" ${e.type==='cost_reduction'?'selected':''}>Réduction coût unités</option>
+          <option value="morale_bonus" ${e.type==='morale_bonus'?'selected':''}>Bonus moral</option>
+          <option value="relic_legendary" ${e.type==='relic_legendary'?'selected':''}>Accès reliques légendaires</option>
+          <option value="custom" ${e.type==='custom'?'selected':''}>Personnalisé</option>
+        </select>
+      </div>
+      <div class="fg"><label>Valeur</label><input type="number" id="geff-val-${i}" value="${e.value||0}"></div>
+      <div class="fg"><label>Description</label><input type="text" id="geff-lbl-${i}" value="${e.label||''}"></div>
+    </div>
+  </div>`;
+}
+
+let gradeEffectCount = 0;
+function addGradeEffect() {
+  const container = document.getElementById('gf-effects');
+  const i = gradeEffectCount++;
+  const div = document.createElement('div');
+  div.innerHTML = gradeEffectHTML({ type: 'rp_bonus', value: 0, label: '' }, Date.now());
+  container.appendChild(div.firstElementChild);
+}
+
+function removeGradeEffect(i) {
+  const el = document.getElementById('geff-' + i);
+  if (el) el.remove();
+}
+
+function saveGrade(gradeId) {
+  const name = document.getElementById('gf-name').value.trim();
+  if (!name) { notify('Nom requis', 'err'); return; }
+  const effects = [];
+  document.querySelectorAll('[id^="geff-type-"]').forEach(sel => {
+    const idx = sel.id.replace('geff-type-', '');
+    const val = document.getElementById('geff-val-' + idx);
+    const lbl = document.getElementById('geff-lbl-' + idx);
+    if (val && lbl) effects.push({ type: sel.value, value: parseInt(val.value) || 0, label: lbl.value });
+  });
+  const grades = S.get('grades') || [];
+  if (gradeId) {
+    const gi = grades.findIndex(g => g.id === gradeId);
+    grades[gi] = { ...grades[gi], name, icon: document.getElementById('gf-icon').value, color: document.getElementById('gf-color').value, minV: parseInt(document.getElementById('gf-minv').value)||0, maxV: parseInt(document.getElementById('gf-maxv').value)||9999, effects };
+  } else {
+    grades.push({ id: Date.now(), name, icon: document.getElementById('gf-icon').value, color: document.getElementById('gf-color').value, minV: parseInt(document.getElementById('gf-minv').value)||0, maxV: parseInt(document.getElementById('gf-maxv').value)||9999, effects });
+  }
+  S.set('grades', grades);
+  closeModal('modal-grade');
+  renderAdminGrades();
+  notify('Grade sauvegardé');
+}
+
+function deleteGrade(gradeId) {
+  if (!confirm('Supprimer ce grade ?')) return;
+  let grades = S.get('grades') || [];
+  grades = grades.filter(g => g.id !== gradeId);
+  S.set('grades', grades);
+  renderAdminGrades();
+  notify('Grade supprimé');
+}
+
+function renderAdminBuildings() {
+  const templates = S.get('buildings_templates') || [];
+  document.getElementById('adm-buildings-list').innerHTML = templates.map(t => `
+    <div class="unit-row">
+      <div class="unit-info">
+        <div class="unit-name">${t.icon} ${t.name}</div>
+        <div class="unit-sub">${t.type} · ${t.levels ? t.levels.length : 0} niveau(x)</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-xs" onclick="openBuildingEditor(${t.id})">Éditer</button>
+        <button class="btn btn-xs" onclick="duplicateBuilding(${t.id})">Dupliquer</button>
+        <button class="btn btn-xs btn-d" onclick="deleteBuilding(${t.id})">Supprimer</button>
+      </div>
+    </div>`).join('') || '<p class="text-muted">Aucun bâtiment créé.</p>';
+}
+
+let buildingEditorLevels = [];
+let buildingEditorId = null;
+
+function openBuildingEditor(templateId) {
+  const templates = S.get('buildings_templates') || [];
+  const t = templateId ? templates.find(x => x.id === templateId) : null;
+  buildingEditorId = templateId || null;
+  buildingEditorLevels = t ? JSON.parse(JSON.stringify(t.levels || [])) : [{ cost: { rp:0,fer:0,adamantium:0,prometheum:0,relics:0 }, effects: [] }];
+  document.getElementById('mb-title').textContent = t ? 'Modifier le bâtiment' : 'Créer un bâtiment';
+  renderBuildingEditor(t);
+  openModal('modal-building');
+}
+
+function renderBuildingEditor(t) {
+  const el = document.getElementById('mb-content');
+  el.innerHTML = `
+    <div class="fg-row">
+      <div class="fg"><label>Nom</label><input type="text" id="bf-name" value="${t ? t.name : ''}"></div>
+      <div class="fg"><label>Icône (emoji)</label><input type="text" id="bf-icon" value="${t ? t.icon : '🏛'}" style="width:80px"></div>
+      <div class="fg"><label>Type</label>
+        <select id="bf-type">
+          <option ${t&&t.type==='Production'?'selected':''}>Production</option>
+          <option ${t&&t.type==='Militaire'?'selected':''}>Militaire</option>
+          <option ${t&&t.type==='Spécial'?'selected':''}>Spécial</option></select>
+      </div></div>
+    <div class="fg"><label>Description</label><textarea id="bf-desc">${t ? t.description||'' : ''}</textarea></div>
+    <div id="bf-levels">
+      ${buildingEditorLevels.map((lv, i) => buildingLevelHTML(lv, i)).join('')}
+    </div>
+    <button class="btn btn-sm mt10" onclick="addBuildingLevel()">+ Ajouter un niveau</button>
+    <hr class="divider">
+    <button class="btn btn-p" onclick="saveBuilding()">Sauvegarder</button>
+    ${t ? `<button class="btn btn-d" style="margin-left:10px" onclick="deleteBuilding(${t.id});closeModal('modal-building')">Supprimer</button>` : ''}
+  `;
+}
+
+function buildingLevelHTML(lv, i) {
+  return `<div class="level-block" id="blv-${i}">
+    <h5>Niveau ${i + 1}</h5>
+    <div class="fg-row">
+      <div class="fg"><label>RP</label><input type="number" id="blv-rp-${i}" value="${lv.cost?.rp||0}" min="0"></div>
+      <div class="fg"><label>Fer</label><input type="number" id="blv-fer-${i}" value="${lv.cost?.fer||0}" min="0"></div>
+      <div class="fg"><label>Adamantium</label><input type="number" id="blv-ada-${i}" value="${lv.cost?.adamantium||0}" min="0"></div>
+      <div class="fg"><label>Prométhéum</label><input type="number" id="blv-pro-${i}" value="${lv.cost?.prometheum||0}" min="0"></div>
+      <div class="fg"><label>Rel. Anc.</label><input type="number" id="blv-rel-${i}" value="${lv.cost?.relics||0}" min="0"></div>
+    </div>
+    <div class="flex-between mb10">
+      <h6 class="text-gold" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px">Effets</h6>
+      <button class="btn btn-xs" onclick="addBuildingEffect(${i})">+ Effet</button>
+    </div>
+    <div id="blv-effects-${i}">
+      ${(lv.effects||[]).map((e, j) => buildingEffectHTML(i, j, e)).join('')}
+    </div>
+  </div>`;
+}
+
+function buildingEffectHTML(lvl, j, e) {
+  const id = `blveff-${lvl}-${j}`;
+  return `<div class="effect-block" id="${id}">
+    <button class="btn btn-xs btn-d remove-eff" onclick="document.getElementById('${id}').remove()">✕</button>
+    <div class="fg-row">
+      <div class="fg"><label>Type</label>
+        <select id="${id}-type" onchange="toggleBuildingEffectFields('${id}')">
+          <option value="generation" ${e?.type==='generation'?'selected':''}>Génération ressource</option>
+          <option value="defense" ${e?.type==='defense'?'selected':''}>Bonus défense (%)</option>
+          <option value="attack" ${e?.type==='attack'?'selected':''}>Bonus attaque (%)</option>
+          <option value="slots" ${e?.type==='slots'?'selected':''}>Slots supplémentaires</option>
+          <option value="cost_reduction" ${e?.type==='cost_reduction'?'selected':''}>Réduction coût (%)</option>
+          <option value="custom" ${e?.type==='custom'?'selected':''}>Personnalisé</option>
+        </select>
+      </div>
+      <div class="fg" id="${id}-res-wrap"><label>Ressource</label>
+        <select id="${id}-res">
+          <option value="rp" ${e?.resource==='rp'?'selected':''}>RP</option>
+          <option value="fer" ${e?.resource==='fer'?'selected':''}>Fer</option>
+          <option value="adamantium" ${e?.resource==='adamantium'?'selected':''}>Adamantium</option>
+          <option value="prometheum" ${e?.resource==='prometheum'?'selected':''}>Prométhéum</option>
+          <option value="relics" ${e?.resource==='relics'?'selected':''}>Reliques Anc.</option>
+        </select>
+      </div>
+      <div class="fg"><label>Quantité / Valeur</label><input type="number" id="${id}-qty" value="${e?.quantity||e?.value||0}" min="0"></div>
+      <div class="fg" id="${id}-int-wrap"><label>Intervalle (heures)</label><input type="number" id="${id}-int" value="${e?.interval||1}" min="1"></div>
+      <div class="fg" id="${id}-desc-wrap" style="display:none"><label>Description</label><input type="text" id="${id}-desc" value="${e?.description||''}"></div>
+    </div>
+  </div>`;
+}
+
+function toggleBuildingEffectFields(id) {
+  const type = document.getElementById(id + '-type').value;
+  const resWrap = document.getElementById(id + '-res-wrap');
+  const intWrap = document.getElementById(id + '-int-wrap');
+  const descWrap = document.getElementById(id + '-desc-wrap');
+  if (resWrap) resWrap.style.display = type === 'generation' ? '' : 'none';
+  if (intWrap) intWrap.style.display = type === 'generation' ? '' : 'none';
+  if (descWrap) descWrap.style.display = type === 'custom' ? '' : 'none';
+}
+
+function addBuildingLevel() {
+  buildingEditorLevels.push({ cost: { rp:0,fer:0,adamantium:0,prometheum:0,relics:0 }, effects: [] });
+  const container = document.getElementById('bf-levels');
+  const i = buildingEditorLevels.length - 1;
+  const div = document.createElement('div');
+  div.innerHTML = buildingLevelHTML(buildingEditorLevels[i], i);
+  container.appendChild(div.firstElementChild);
+}
+
+function addBuildingEffect(lvlIdx) {
+  const container = document.getElementById('blv-effects-' + lvlIdx);
+  const j = container.children.length;
+  const div = document.createElement('div');
+  div.innerHTML = buildingEffectHTML(lvlIdx, Date.now(), {});
+  container.appendChild(div.firstElementChild);
+}
+
+function saveBuilding() {
+  const name = document.getElementById('bf-name').value.trim();
+  if (!name) { notify('Nom requis', 'err'); return; }
+  const levels = [];
+  document.querySelectorAll('[id^="blv-rp-"]').forEach(inp => {
+    const i = inp.id.replace('blv-rp-', '');
+    const cost = {
+      rp: parseInt(document.getElementById('blv-rp-' + i).value)||0,
+      fer: parseInt(document.getElementById('blv-fer-' + i).value)||0,
+      adamantium: parseInt(document.getElementById('blv-ada-' + i).value)||0,
+      prometheum: parseInt(document.getElementById('blv-pro-' + i).value)||0,
+      relics: parseInt(document.getElementById('blv-rel-' + i).value)||0
+    };
+    const effects = [];
+    document.querySelectorAll(`#blv-effects-${i} .effect-block`).forEach(eff => {
+      const id = eff.id;
+      const type = document.getElementById(id + '-type').value;
+      const qty = parseInt(document.getElementById(id + '-qty').value)||0;
+      const ef = { type, quantity: qty, value: qty };
+      if (type === 'generation') {
+        ef.resource = document.getElementById(id + '-res').value;
+        ef.interval = parseInt(document.getElementById(id + '-int').value)||1;
+      } else if (type === 'custom') {
+        ef.description = document.getElementById(id + '-desc').value;
+      }
+      effects.push(ef);
+    });
+    levels.push({ cost, effects });
+  });
+  const templates = S.get('buildings_templates') || [];
+  const tmpl = {
+    id: buildingEditorId || Date.now(),
+    name,
+    icon: document.getElementById('bf-icon').value || '🏛',
+    type: document.getElementById('bf-type').value,
+    description: document.getElementById('bf-desc').value,
+    levels
+  };
+  if (buildingEditorId) {
+    const ti = templates.findIndex(t => t.id === buildingEditorId);
+    templates[ti] = tmpl;
+  } else {
+    templates.push(tmpl);
+  }
+  S.set('buildings_templates', templates);
+  closeModal('modal-building');
+  renderAdminBuildings();
+  notify('Bâtiment sauvegardé');
+}
+
+function duplicateBuilding(templateId) {
+  const templates = S.get('buildings_templates') || [];
+  const t = templates.find(x => x.id === templateId);
+  if (!t) return;
+  const copy = JSON.parse(JSON.stringify(t));
+  copy.id = Date.now();
+  copy.name = copy.name + ' (copie)';
+  templates.push(copy);
+  S.set('buildings_templates', templates);
+  renderAdminBuildings();
+  notify('Bâtiment dupliqué');
+}
+
+function deleteBuilding(templateId) {
+  if (!confirm('Supprimer ce bâtiment ?')) return;
+  let templates = S.get('buildings_templates') || [];
+  templates = templates.filter(t => t.id !== templateId);
+  S.set('buildings_templates', templates);
+  renderAdminBuildings();
+  notify('Bâtiment supprimé');
+}
+
+function renderAdminRelics() {
+  const relics = S.get('relics_templates') || [];
+  const rarityColors = { Commune: '#8a8a6a', Rare: '#4a7ad4', Légendaire: '#d4a574', Artefact: '#d44a4a' };
+  document.getElementById('adm-relics-list').innerHTML = relics.map(r => `
+    <div class="unit-row">
+      <div class="unit-info">
+        <div class="unit-name">${r.name}<span style="font-size:0.75rem;color:${rarityColors[r.rarity]||'#888'}">[${r.rarity}]</span></div>
+        <div class="unit-sub">Coût : ${r.cost?.rp||0} RP · ${r.description?.substring(0,60)||''}...</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-xs" onclick="openRelicEditor(${r.id})">Éditer</button>
+        <button class="btn btn-xs btn-d" onclick="deleteRelic(${r.id})">Supprimer</button>
+      </div>
+    </div>`).join('') || '<p class="text-muted">Aucune relique créée.</p>';
+}
+
+function openRelicEditor(relicId) {
+  const relics = S.get('relics_templates') || [];
+  const r = relicId ? relics.find(x => x.id === relicId) : null;
+  const grades = S.get('grades') || [];
+  document.getElementById('mr-title').textContent = r ? 'Modifier la relique' : 'Créer une relique';
+  document.getElementById('mr-content').innerHTML = `
+    <div class="fg"><label>Nom</label><input type="text" id="rf-name" value="${r ? r.name : ''}"></div>
+    <div class="fg"><label>Description / Effets</label><textarea id="rf-desc">${r ? r.description||'' : ''}</textarea></div>
+    <div class="fg"><label>Rareté</label>
+      <select id="rf-rarity">
+        <option ${r?.rarity==='Commune'?'selected':''}>Commune</option>
+        <option ${r?.rarity==='Rare'?'selected':''}>Rare</option>
+        <option ${r?.rarity==='Légendaire'?'selected':''}>Légendaire</option>
+        <option ${r?.rarity==='Artefact'?'selected':''}>Artefact</option>
+      </select>
+    </div>
+    <h5class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Coût de craft</h5>
+    <div class="fg-row">
+      <div class="fg"><label>RP</label><input type="number" id="rf-rp" value="${r?.cost?.rp||0}" min="0"></div>
+      <div class="fg"><label>Fer</label><input type="number" id="rf-fer" value="${r?.cost?.fer||0}" min="0"></div>
+      <div class="fg"><label>Adamantium</label><input type="number" id="rf-ada" value="${r?.cost?.adamantium||0}" min="0"></div>
+      <div class="fg"><label>Prométhéum</label><input type="number" id="rf-pro" value="${r?.cost?.prometheum||0}" min="0"></div>
+      <div class="fg"><label>Rel. Anc.</label><input type="number" id="rf-rel" value="${r?.cost?.relics||0}" min="0"></div>
+    </div>
+    <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Restrictions</h5>
+    <div class="fg-row">
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem"><input type="checkbox" id="rf-r-perso" ${r?.restrictions?.personnage?'checked':''}> Personnage</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem"><input type="checkbox" id="rf-r-inf" ${r?.restrictions?.infanterie?'checked':''}> Infanterie</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem"><input type="checkbox" id="rf-r-veh" ${r?.restrictions?.vehicule?'checked':''}> Véhicule</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem"><input type="checkbox" id="rf-r-fly" ${r?.restrictions?.volant?'checked':''}> Volant</label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem"><input type="checkbox" id="rf-r-wl" ${r?.restrictions?.warlord?'checked':''}> Seigneur de Guerre uniquement</label>
+    </div>
+    <div class="fg"><label>Grade minimum requis</label>
+      <select id="rf-grade">
+        <option value="">Aucun</option>
+        ${grades.map((g, i) => `<option value="${i+1}" ${r?.restrictions?.minGrade===(i+1)?'selected':''}>${g.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Image (URL)</label><input type="url" id="rf-img" value="${r?.image||''}"></div>
+    <button class="btn btn-p mt10" onclick="saveRelic(${relicId||'null'})">Sauvegarder</button>
+    ${r ? `<button class="btn btn-d mt10" style="margin-left:10px" onclick="deleteRelic(${r.id});closeModal('modal-relic')">Supprimer</button>` : ''}
+  `;
+  openModal('modal-relic');
+}
+
+function saveRelic(relicId) {
+  const name = document.getElementById('rf-name').value.trim();
+  if (!name) { notify('Nom requis', 'err'); return; }
+  const relic = {
+    id: relicId || Date.now(),
+    name,
+    description: document.getElementById('rf-desc').value,
+    rarity: document.getElementById('rf-rarity').value,
+    cost: {
+      rp: parseInt(document.getElementById('rf-rp').value)||0,
+      fer: parseInt(document.getElementById('rf-fer').value)||0,
+      adamantium: parseInt(document.getElementById('rf-ada').value)||0,
+      prometheum: parseInt(document.getElementById('rf-pro').value)||0,
+      relics: parseInt(document.getElementById('rf-rel').value)||0
+    },
+    restrictions: {
+      personnage: document.getElementById('rf-r-perso').checked,
+      infanterie: document.getElementById('rf-r-inf').checked,
+      vehicule: document.getElementById('rf-r-veh').checked,
+      volant: document.getElementById('rf-r-fly').checked,
+      warlord: document.getElementById('rf-r-wl').checked,
+      minGrade: parseInt(document.getElementById('rf-grade').value)||null
+    },
+    image: document.getElementById('rf-img').value
+  };
+  const relics = S.get('relics_templates') || [];
+  if (relicId) {
+    const ri = relics.findIndex(r => r.id === relicId);
+    relics[ri] = relic;
+  } else {
+    relics.push(relic);
+  }
+  S.set('relics_templates', relics);
+  closeModal('modal-relic');
+  renderAdminRelics();
+  notify('Relique sauvegardée');
+}
+
+function deleteRelic(relicId) {
+  if (!confirm('Supprimer cette relique ?')) return;
+  let relics = S.get('relics_templates') || [];
+  relics = relics.filter(r => r.id !== relicId);
+  S.set('relics_templates', relics);
+  renderAdminRelics();
+  notify('Relique supprimée');
+}
+
+function renderAdminMissions() {
+  const missions = S.get('missions') || [];
+  document.getElementById('adm-missions-list').innerHTML = missions.map(m => `
+    <div class="unit-row">
+      <div class="unit-info">
+        <div class="unit-name">${m.name} <span class="badge ${m.active ? 'active' : ''}" style="margin-left:8px">${m.active ? 'Active' : 'Inactive'}</span></div>
+        <div class="unit-sub">${m.objective?.substring(0,80)||''}...</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-xs" onclick="openMissionEditor(${m.id})">Éditer</button>
+        <button class="btn btn-xs btn-d" onclick="deleteMission(${m.id})">Supprimer</button>
+      </div>
+    </div>`).join('') || '<p class="text-muted">Aucune mission créée.</p>';
+}
+
+function openMissionEditor(missionId) {
+  const missions = S.get('missions') || [];
+  const m = missionId ? missions.find(x => x.id === missionId) : null;
+  const relics = S.get('relics_templates') || [];
+  document.getElementById('mm-title').textContent = m ? 'Modifier la mission' : 'Créer une mission';
+  document.getElementById('mm-content').innerHTML = `
+    <div class="fg"><label>Nom</label><input type="text" id="mf-name" value="${m ? m.name : ''}"></div>
+    <div class="fg"><label>Description</label><textarea id="mf-desc">${m ? m.description||'' : ''}</textarea></div>
+    <div class="fg"><label>Objectif</label><textarea id="mf-obj">${m ? m.objective||'' : ''}</textarea></div>
+    <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Gains Vainqueur</h5>
+    <div class="fg-row">
+      <div class="fg"><label>RP</label><input type="number" id="mf-w-rp" value="${m?.winner?.rp||0}" min="0"></div>
+      <div class="fg"><label>Fer</label><input type="number" id="mf-w-fer" value="${m?.winner?.fer||0}" min="0"></div>
+      <div class="fg"><label>Adamantium</label><input type="number" id="mf-w-ada" value="${m?.winner?.adamantium||0}" min="0"></div>
+      <div class="fg"><label>Prométhéum</label><input type="number" id="mf-w-pro" value="${m?.winner?.prometheum||0}" min="0"></div>
+      <div class="fg"><label>Rel. Anc.</label><input type="number" id="mf-w-rel" value="${m?.winner?.relics||0}" min="0"></div>
+    </div>
+    <div class="fg"><label>Relique spéciale</label>
+      <select id="mf-w-relic">
+        <option value="">Aucune</option>
+        ${relics.map(r => `<option value="${r.id}" ${m?.winner?.relicId===r.id?'selected':''}>${r.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="fg"><label>Bonus custom vainqueur</label><input type="text" id="mf-w-custom" value="${m?.winner?.custom||''}"></div>
+    <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:1px">Gains Perdant</h5>
+    <div class="fg-row">
+      <div class="fg"><label>RP</label><input type="number" id="mf-l-rp" value="${m?.loser?.rp||0}" min="0"></div>
+      <div class="fg"><label>Fer</label><input type="number" id="mf-l-fer" value="${m?.loser?.fer||0}" min="0"></div>
+      <div class="fg"><label>Adamantium</label><input type="number" id="mf-l-ada" value="${m?.loser?.adamantium||0}" min="0"></div>
+      <div class="fg"><label>Prométhéum</label><input type="number" id="mf-l-pro" value="${m?.loser?.prometheum||0}" min="0"></div>
+      <div class="fg"><label>Rel. Anc.</label><input type="number" id="mf-l-rel" value="${m?.loser?.relics||0}" min="0"></div>
+    </div>
+    <div class="fg"><label>Bonus custom perdant</label><input type="text" id="mf-l-custom" value="${m?.loser?.custom||''}"></div>
+    <div class="fg"><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="mf-active" ${m?.active?'checked':''}> Mission active</label></div>
+    <button class="btn btn-p mt10" onclick="saveMission(${missionId||'null'})">Sauvegarder</button>
+    ${m ? `<button class="btn btn-d mt10" style="margin-left:10px" onclick="deleteMission(${m.id});closeModal('modal-mission')">Supprimer</button>` : ''}
+  `;
+  openModal('modal-mission');
+}
+
+function saveMission(missionId) {
+  const name = document.getElementById('mf-name').value.trim();
+  if (!name) { notify('Nom requis', 'err'); return; }
+  const mission = {
+    id: missionId || Date.now(),
+    name,
+    description: document.getElementById('mf-desc').value,
+    objective: document.getElementById('mf-obj').value,
+    winner: {
+      rp: parseInt(document.getElementById('mf-w-rp').value)||0,
+      fer: parseInt(document.getElementById('mf-w-fer').value)||0,
+      adamantium: parseInt(document.getElementById('mf-w-ada').value)||0,
+      prometheum: parseInt(document.getElementById('mf-w-pro').value)||0,
+      relics: parseInt(document.getElementById('mf-w-rel').value)||0,
+      relicId: document.getElementById('mf-w-relic').value ? parseInt(document.getElementById('mf-w-relic').value) : null,
+      custom: document.getElementById('mf-w-custom').value
+    },
+    loser: {
+      rp: parseInt(document.getElementById('mf-l-rp').value)||0,
+      fer: parseInt(document.getElementById('mf-l-fer').value)||0,
+      adamantium: parseInt(document.getElementById('mf-l-ada').value)||0,
+      prometheum: parseInt(document.getElementById('mf-l-pro').value)||0,
+      relics: parseInt(document.getElementById('mf-l-rel').value)||0,
+      custom: document.getElementById('mf-l-custom').value
+    },
+    active: document.getElementById('mf-active').checked,
+    createdAt: missionId ? undefined : Date.now()
+  };
+  const missions = S.get('missions') || [];
+  if (missionId) {
+    const mi = missions.findIndex(m => m.id === missionId);
+    missions[mi] = { ...missions[mi], ...mission };
+  } else {
+    missions.push(mission);
+  }
+  S.set('missions', missions);
+  closeModal('modal-mission');
+  renderAdminMissions();
+  notify('Mission sauvegardée');
+}
+
+function deleteMission(missionId) {
+  if (!confirm('Supprimer cette mission ?')) return;
+  let missions = S.get('missions') || [];
+  missions = missions.filter(m => m.id !== missionId);
+  S.set('missions', missions);
+  renderAdminMissions();
+  notify('Mission supprimée');
+}
+
+function renderMoraleRules() {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  document.getElementById('mor-base').value = config.base || 1;
+  const el = document.getElementById('morale-rules-list');
+  el.innerHTML = (config.rules || []).map((r, i) => `
+    <div class="unit-row">
+      <div class="unit-info">
+        <div class="unit-name">${r.label || r.condition + ' ' + r.operator + ' ' + r.value}</div>
+        <div class="unit-sub">Modificateur : ${r.modifier >= 0 ? '+' : ''}${r.modifier}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-xs" onclick="editMoraleRule(${i})">Éditer</button>
+        <button class="btn btn-xs btn-d" onclick="deleteMoraleRule(${i})">Supprimer</button>
+      </div>
+    </div>`).join('') || '<p class="text-muted">Aucune règle.</p>';
+}
+
+function saveMoraleConfig() {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  config.base = parseInt(document.getElementById('mor-base').value) || 1;
+  S.set('morale_config', config);
+}
+
+function addMoraleRule() {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  const newRule = {
+    id: Date.now(),
+    condition: 'type',
+    operator: '=',
+    value: '',
+    modifier: 1,
+    label: 'Nouvelle règle'
+  };
+  config.rules.push(newRule);
+  S.set('morale_config', config);
+  renderMoraleRules();
+  editMoraleRule(config.rules.length - 1);
+}
+
+function editMoraleRule(index) {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  const r = config.rules[index];
+  const content = `
+    <div class="fg"><label>Condition</label>
+      <select id="mr-cond">
+        <option value="type" ${r.condition==='type'?'selected':''}>Type d'unité</option>
+        <option value="cost" ${r.condition==='cost'?'selected':''}>Coût en points</option>
+        <option value="keyword" ${r.condition==='keyword'?'selected':''}>Mot-clé</option>
+        <option value="grade" ${r.condition==='grade'?'selected':''}>Grade joueur</option>
+      </select>
+    </div>
+    <div class="fg"><label>Opérateur</label>
+      <select id="mr-op">
+        <option value="=" ${r.operator==='='?'selected':''}>=</option>
+        <option value="<" ${r.operator==='<'?'selected':''}>< (inférieur)</option>
+        <option value=">" ${r.operator==='>'?'selected':''}>> (supérieur)</option>
+        <option value=">=" ${r.operator==='>='?'selected':''}>≥ (supérieur ou égal)</option>
+        <option value="<=" ${r.operator==='<='?'selected':''}>≤ (inférieur ou égal)</option>
+        <option value="between" ${r.operator==='between'?'selected':''}>Entre (ex: 100-199)</option>
+        <option value="contains" ${r.operator==='contains'?'selected':''}>Contient</option>
+      </select>
+    </div>
+    <div class="fg"><label>Valeur</label><input type="text" id="mr-val" value="${r.value}" placeholder="Ex: Ligne,100, Infanterie"></div>
+    <div class="fg"><label>Modificateur</label><input type="number" id="mr-mod" value="${r.modifier}"></div>
+    <div class="fg"><label>Description</label><input type="text" id="mr-lbl" value="${r.label||''}"></div>
+    <button class="btn btn-p mt10" onclick="saveMoraleRule(${index})">Sauvegarder</button>
+  `;
+  const el = document.getElementById('morale-rules-list');
+  const rows = el.querySelectorAll('.unit-row');
+  if (rows[index]) {
+    const editDiv = document.createElement('div');
+    editDiv.className = 'effect-block mt10 mb10';
+    editDiv.id = 'mr-edit-' + index;
+    editDiv.innerHTML = content;
+    rows[index].after(editDiv);
+    rows[index].querySelector('.btn:first-child').textContent = 'Annuler';
+    rows[index].querySelector('.btn:first-child').onclick = () => { editDiv.remove(); renderMoraleRules(); };
+  }
+}
+
+function saveMoraleRule(index) {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  config.rules[index] = {
+    ...config.rules[index],
+    condition: document.getElementById('mr-cond').value,
+    operator: document.getElementById('mr-op').value,
+    value: document.getElementById('mr-val').value,
+    modifier: parseInt(document.getElementById('mr-mod').value) || 0,
+    label: document.getElementById('mr-lbl').value
+  };
+  S.set('morale_config', config);
+  renderMoraleRules();
+  notify('Règle sauvegardée');
+}
+
+function deleteMoraleRule(index) {
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  config.rules.splice(index, 1);
+  S.set('morale_config', config);
+  renderMoraleRules();
+}
+
+function testMorale() {
+  const unit = {
+    type: document.getElementById('test-type').value,
+    cost: parseInt(document.getElementById('test-cost').value) || 0,
+    keywords: document.getElementById('test-keywords').value
+  };
+  const fakePlayer = { victories: (parseInt(document.getElementById('test-grade').value) || 1) * 3};
+  const result = calcMorale(unit, fakePlayer);
+  const config = S.get('morale_config') || { base: 1, rules: [] };
+  let breakdown = `Moral de base : ${config.base}`;
+  const gradeIdx = getPlayerGradeIndex(fakePlayer);
+  (config.rules || []).forEach(rule => {
+    let match = false;
+    if (rule.condition === 'type' && rule.operator === '=') match = unit.type === rule.value;
+    else if (rule.condition === 'cost') {
+      const c = unit.cost;
+      if (rule.operator === '<') match = c < parseFloat(rule.value);
+      else if (rule.operator === '>') match = c > parseFloat(rule.value);
+      else if (rule.operator === '>=') match = c >= parseFloat(rule.value);
+      else if (rule.operator === 'between') { const [a,b] = rule.value.split('-').map(Number); match = c >= a && c <= b; }
+    }
+    else if (rule.condition === 'keyword' && rule.operator === 'contains') match = unit.keywords.toLowerCase().includes(rule.value.toLowerCase());
+    else if (rule.condition === 'grade' && rule.operator === '>=') match = gradeIdx >= parseInt(rule.value);
+    if (match) breakdown += ` + ${rule.modifier >= 0 ? '+' : ''}${rule.modifier} (${rule.label})`;
+  });
+  breakdown += ` =<strong style="color:var(--gold)">${result}</strong>`;
+  document.getElementById('morale-test-result').innerHTML = `<div class="msg info">${breakdown}</div>`;
+}
+
+function renderAdminMap() {
+  const territories = S.get('territories') || [];
+  const alliances = S.get('alliances') || [];
+  document.getElementById('adm-map-list').innerHTML = `
+    <table class="tbl">
+      <thead><tr><th>Nom</th><th>Type</th><th>Propriétaire</th><th>Slots</th><th>Bâtiments</th><th>Actions</th></tr></thead>
+      <tbody>${territories.map(t => {
+        const owner = t.owner ? alliances.find(a => a.id === t.owner) : null;
+        return `<tr>
+          <td>${t.name}</td>
+          <td><select onchange="adminSetTerrType(${t.id},this.value)" style="padding:4px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l);font-size:0.8rem">
+            ${['Normal','Ruine','Forge','Agricole','Ruche','Mort','Désertique','Glacé','Volcanique','Sauvage'].map(tp => `<option ${t.type===tp?'selected':''}>${tp}</option>`).join('')}
+          </select></td>
+          <td>${owner ? owner.name : 'Neutre'}</td>
+          <td><input type="number" value="${t.slots}" min="1" max="10" style="width:50px;padding:4px;background:var(--bg);border:1px solid var(--brd);color:var(--gold-l)" onchange="adminSetTerrSlots(${t.id},this.value)"></td>
+          <td>${t.buildings.length}</td>
+          <td>
+            <button class="btn btn-xs btn-d" onclick="adminFreeTerritory(${t.id})">Libérer</button></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+}
+
+function adminSetTerrType(id, type) {
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === id);
+  territories[ti].type = type;
+  S.set('territories', territories);
+}
+
+function adminSetTerrSlots(id, slots) {
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === id);
+  territories[ti].slots = parseInt(slots) || 4;
+  S.set('territories', territories);
+}
+
+function adminFreeTerritory(id) {
+  const territories = S.get('territories') || [];
+  const ti = territories.findIndex(t => t.id === id);
+  territories[ti].owner = null;
+  S.set('territories', territories);renderAdminMap();
+  notify('Territoire libéré');
+}
+
+function adminResetMap() {
+  if (!confirm('Réinitialiser toute la carte ? Toutes les conquêtes seront perdues.')) return;
+  const settings = S.get('settings') || defaultSettings();
+  S.set('territories', generateTerritories(settings.mapCols || 10, settings.mapRows || 10));
+  renderAdminMap();
+  notify('Carte réinitialisée');
+}
+
+function adminGenerateMap() {
+  if (!confirm('Régénérer la carte aléatoirement ?')) return;
+  const settings = S.get('settings') || defaultSettings();
+  S.set('territories', generateTerritories(settings.mapCols || 10, settings.mapRows || 10));
+  renderAdminMap();
+  notify('Carte régénérée');
+}
+
+function loadSettings() {
+  const s = S.get('settings') || defaultSettings();
+  document.getElementById('set-start-rp').value = s.startRp || 0;
+  document.getElementById('set-start-pts').value = s.startPts || 2000;
+  document.getElementById('set-pts-cost').value = s.ptsCost || 100;
+  document.getElementById('set-res-mult').value = s.resMult || 1;
+  document.getElementById('set-map-cols').value = s.mapCols || 10;
+  document.getElementById('set-map-rows').value = s.mapRows || 10;
+  document.getElementById('set-slots').value = s.slots || 4;
+  document.getElementById('set-auto-res').checked = s.autoRes !== false;
+}
+
+function saveSettings() {
+  S.set('settings', {
+    startRp: parseInt(document.getElementById('set-start-rp').value) || 0,
+    startPts: parseInt(document.getElementById('set-start-pts').value) || 2000,
+    ptsCost: parseInt(document.getElementById('set-pts-cost').value) || 100,
+    resMult: parseFloat(document.getElementById('set-res-mult').value) || 1,
+    mapCols: parseInt(document.getElementById('set-map-cols').value) || 10,
+    mapRows: parseInt(document.getElementById('set-map-rows').value) || 10,
+    slots: parseInt(document.getElementById('set-slots').value) || 4,
+    autoRes: document.getElementById('set-auto-res').checked
+  });
+}
+
+function loadConsequences() {
+  const c = S.get('consequences') || defaultConsequences();
+  document.getElementById('cons-neutral-cost').value = c.neutralCost || 150;
+  document.getElementById('cons-major-threshold').value = c.major?.threshold || 500;
+  document.getElementById('cons-major-rp').value = c.major?.rp || 100;
+  document.getElementById('cons-major-res').value = c.major?.res || 20;
+  document.getElementById('cons-major-terr').checked = c.major?.takeTerr !== false;
+  document.getElementById('cons-major-bld').checked = c.major?.destroyBld || false;
+  document.getElementById('cons-minor-min').value = c.minor?.min || 200;
+  document.getElementById('cons-minor-max').value = c.minor?.max || 499;
+  document.getElementById('cons-minor-rp').value = c.minor?.rp || 50;
+  document.getElementById('cons-minor-terr').checked = c.minor?.takeTerr !== false;
+  document.getElementById('cons-draw-atk').value = c.draw?.atkRp || 25;
+  document.getElementById('cons-draw-def').value = c.draw?.defRp || 25;
+  document.getElementById('cons-defeat-rp').value = c.defeat?.rp || 50;
+  document.getElementById('cons-defeat-bld').checked = c.defeat?.destroyBld || false;
+}
+
+function saveConsequences() {
+  S.set('consequences', {
+    neutralCost: parseInt(document.getElementById('cons-neutral-cost').value) || 150,
+    major: {
+      threshold: parseInt(document.getElementById('cons-major-threshold').value) || 500,
+      rp: parseInt(document.getElementById('cons-major-rp').value) || 100,
+      res: parseInt(document.getElementById('cons-major-res').value) || 20,
+      takeTerr: document.getElementById('cons-major-terr').checked,
+      destroyBld: document.getElementById('cons-major-bld').checked
+    },
+    minor: {
+      min: parseInt(document.getElementById('cons-minor-min').value) || 200,
+      max: parseInt(document.getElementById('cons-minor-max').value) || 499,
+      rp: parseInt(document.getElementById('cons-minor-rp').value) || 50,
+      takeTerr: document.getElementById('cons-minor-terr').checked
+    },
+    draw: {
+      atkRp: parseInt(document.getElementById('cons-draw-atk').value) || 25,
+      defRp: parseInt(document.getElementById('cons-draw-def').value) || 25
+    },
+    defeat: {
+      rp: parseInt(document.getElementById('cons-defeat-rp').value) || 50,
+      destroyBld: document.getElementById('cons-defeat-bld').checked
+    }
+  });
+}
+
+function renderLogs(filter) {
+  const logs = S.get('logs') || [];
+  const filtered = filter === 'all' ? logs : logs.filter(l => l.type === filter);
+  document.getElementById('adm-logs-list').innerHTML = filtered.length === 0 ?
+    '<p class="text-muted">Aucun log.</p>' :
+    `<table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Message</th></tr></thead><tbody>` +
+    filtered.map(l => `<tr><td>${l.date}</td><td><span class="badge">${l.type}</span></td><td>${l.msg}</td></tr>`).join('') +
+    '</tbody></table>';
+}
+
+function clearLogs() {
+  if (!confirm('Effacer tous les logs ?')) return;
+  S.set('logs', []);
+  renderLogs('all');
+  notify('Logs effacés');
+}
+
+function exportData() {
+  const data = {
+    players: S.get('players'),
+    alliances: S.get('alliances'),
+    territories: S.get('territories'),
+    battles: S.get('battles'),
+    grades: S.get('grades'),
+    buildings_templates: S.get('buildings_templates'),
+    relics_templates: S.get('relics_templates'),
+    missions: S.get('missions'),
+    morale_config: S.get('morale_config'),
+    consequences: S.get('consequences'),
+    settings: S.get('settings'),
+    logs: S.get('logs'),
+    exportDate: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `campaignum-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  notify('Données exportées');
+}
+
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!confirm('Importer ces données ? Cela remplacera toutes les données actuelles.')) return;
+      Object.keys(data).forEach(key => {
+        if (key !== 'exportDate') S.set(key, data[key]);
+      });
+      notify('Données importées avec succès');
+      location.reload();
+    } catch (err) {
+      notify('Erreur lors de l\'importation','err');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetCampaign() {
+  const c1 = confirm('ATTENTION ! Cette action est irréversible. Continuer ?');
+  if (!c1) return;
+  const c2 = confirm('Toutes les données seront effacées. Êtes-vous VRAIMENT sûr ?');
+  if (!c2) return;
+  const c3 = confirm('DERNIÈRE CONFIRMATION : Réinitialiser la campagne ?');
+  if (!c3) return;
+  ['players','alliances','territories','battles','grades','buildings_templates','relics_templates','missions','morale_config','consequences','settings','logs','session'].forEach(k => localStorage.removeItem(k));
+  notify('Campagne réinitialisée');
+  setTimeout(() => location.reload(), 1500);
+}
+
+function processResourceGeneration() {
+  const settings = S.get('settings') || defaultSettings();
+  if (!settings.autoRes) return;
+  const alliances = S.get('alliances') || [];
+  const templates = S.get('buildings_templates') || [];
+  const mult = settings.resMult || 1;
+  const now = Date.now();
+  let changed = false;
+  alliances.forEach(alliance => {
+    (alliance.buildings || []).forEach(bld => {
+      const tmpl = templates.find(t => t.id === bld.templateId);
+      if (!tmpl || !tmpl.levels) return;
+      const levelData = tmpl.levels[bld.level - 1];
+      if (!levelData || !levelData.effects) return;
+      levelData.effects.filter(e => e.type === 'generation').forEach(eff => {
+        const intervalMs = (eff.interval || 1) * 3600000;
+        const lastGen = bld.lastGenerated || now;
+        const elapsed = now - lastGen;
+        const ticks = Math.floor(elapsed / intervalMs);
+        if (ticks > 0) {
+          const gain = Math.floor(eff.quantity * ticks * mult);
+          alliance.resources[eff.resource] = (alliance.resources[eff.resource] || 0) + gain;
+          bld.lastGenerated = lastGen + ticks * intervalMs;
+          changed = true;
+          if (gain > 0 && currentUser && currentUser.alliance === alliance.id) {
+            notify(`+${gain} ${eff.resource.toUpperCase()} généré par ${tmpl.name}`);
+          }
+        }
+      });
+    });
+  });
+  if (changed) S.set('alliances', alliances);
+  setTimeout(processResourceGeneration, 60000);
+}
+
+function showMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.innerHTML = `<div class="msg ${type}">${msg}</div>`;
+    setTimeout(() => { if (el) el.innerHTML = ''; }, 5000);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initData();
+  const sessionId = S.get('session');
+  if (sessionId) {
+    const players = S.get('players') || [];
+    const player = players.find(p => p.id === sessionId);
+    if (player) {
+      currentUser = player;
+      afterLogin();
+      return;
+    }
+  }
+  showPage('login');
+});
+</script>
+</body>
+</html>
