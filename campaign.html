@@ -995,79 +995,30 @@ function renderUnits() {
   if (!currentUser) return;
   const units = currentUser.units || [];
   const el = document.getElementById('prof-units');
-
-  // Séparation unités actives / KIA
-  const activeUnits = units.filter(u => u.status !== 'KIA');
-  const kiaUnits = units.filter(u => u.status === 'KIA');
-
-  // Total actif = somme des unités vivantes (Reserve Unités)
-  const totalActif = activeUnits.reduce((s, u) => s + (u.cost || 0), 0);
-  const maxPts = currentUser.maxArmyPoints || 2000;
-
-  let html = `
-    <div style="background:var(--bg3);border:1px solid var(--brd-g);padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div class="stat-lbl">Réserve Unités (vivantes)</div>
-        <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:${totalActif > maxPts ? '#d49090' : 'var(--gold)'}">
-          ${totalActif} / ${maxPts} pts
-        </div>
-      </div>
-      <div style="text-align:right">
-        <div class="stat-lbl">Roster Max</div>
-        <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold)">${maxPts} pts</div>
-      </div>
-    </div>
-  `;
-
-  // UNITÉS ACTIVES
-  if (activeUnits.length > 0) {
-    html += `<h5class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:2px">⚔ Réserve Unités (${activeUnits.length})</h5>`;
-    html += activeUnits.map(u => {
+  if (units.length === 0) { el.innerHTML = '<p class="text-muted">Aucune unité. Ajoutez votre première unité.</p>'; return; }
+  const totalPts = units.filter(u => u.status !== 'KIA').reduce((s, u) => s + (u.cost || 0), 0);
+  el.innerHTML = `<p class="text-muted mb10" style="font-size:0.82rem">Total actif : <span class="text-gold">${totalPts}</span> /<span class="text-gold">${currentUser.maxArmyPoints}</span> pts</p>` +
+    units.map(u => {
       const morMax = u.moraleMax || 1;
       const morCur = u.moraleCurrent !== undefined ? u.moraleCurrent : morMax;
       const pips = Array.from({length: morMax}, (_, i) =>
-        `<div class="morale-pip ${i < morCur ? 'full' : 'empty'}"></div>`
+        `<div class="morale-pip ${i< morCur ? 'full' : 'empty'}"></div>`
       ).join('');
-      return `<div class="unit-row">
+      return `<div class="unit-row ${u.status === 'KIA' ? 'kia' : ''}">
         <div class="unit-info">
           <div class="unit-name">${u.customName || u.realName}</div>
           <div class="unit-sub">${u.realName} · ${u.type} · ${u.cost} pts · ${u.keywords || ''}</div>
+          ${u.status === 'KIA' ? '<span class="badge kia">Perdu au combat</span>' : ''}
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <div class="unit-morale">${pips}</div>
           <span class="text-muted" style="font-size:0.75rem">${morCur}/${morMax}</span>
-          <button class="btn btn-xs" onclick="openUnitDetail(${u.id})">Détail</button>
-          <button class="btn btn-xs btn-d" onclick="markUnitDestroyed(${u.id})">-1Moral</button>
+          ${u.status !== 'KIA' ? `<button class="btn btn-xs" onclick="openUnitDetail(${u.id})">Détail</button>` : ''}${u.status !== 'KIA' ? `<button class="btn btn-xs btn-d" onclick="markUnitDestroyed(${u.id})">-1Moral</button>` : ''}
         </div>
       </div>`;
     }).join('');
-  } else {
-    html += `<p class="text-muted mb10">Aucune unité active. Ajoutez votre première unité.</p>`;
-  }
-
-  // UNITÉS KIA — affichées séparément, ne comptent PAS dans le total
-  if (kiaUnits.length > 0) {
-    html += `
-      <hr class="divider">
-      <h5 class="text-gold mb10" style="font-family:'Cinzel',serif;font-size:0.82rem;text-transform:uppercase;letter-spacing:2px;color:#d49090">💀 Pertes au combat (${kiaUnits.length})</h5>
-      <p class="text-muted mb10" style="font-size:0.78rem">Ces unités ne comptent plus dans votre réserve. Réquisitionnez de nouvelles unités pour les remplacer.</p>
-    `;
-    html += kiaUnits.map(u => `
-      <div class="unit-row kia" style="opacity:0.5;border-color:#5a3a3a">
-        <div class="unit-info">
-          <div class="unit-name" style="color:#d49090">${u.customName || u.realName}</div>
-          <div class="unit-sub">${u.realName} · ${u.type} · ${u.cost} pts</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="badge kia">Perdu au combat</span>
-          <button class="btn btn-xs btn-d" onclick="deleteUnit(${u.id})">Retirer</button>
-        </div>
-      </div>`
-    ).join('');
-  }
-
-  el.innerHTML = html;
 }
+
 function markUnitDestroyed(unitId) {
   const players = S.get('players') || [];
   const pi = players.findIndex(p => p.id === currentUser.id);
@@ -1726,33 +1677,18 @@ function loadBattles() {
 }
 
 function declareBattle() {
-  const atkVal = document.getElementById('b-attacker').value;
-  const defVal = document.getElementById('b-defender').value;
-  const terrVal = document.getElementById('b-territory').value;
+  const atkId = parseInt(document.getElementById('b-attacker').value);
+  const defId = parseInt(document.getElementById('b-defender').value);
+  const terrId = parseInt(document.getElementById('b-territory').value);
   const misId = document.getElementById('b-mission').value;
-
-  if (!atkVal || atkVal === '') { notify('Sélectionnez un attaquant', 'err'); return; }
-  if (!defVal || defVal === '') { notify('Sélectionnez un défenseur', 'err'); return; }
-  if (!terrVal || terrVal === '') { notify('Sélectionnez un territoire', 'err'); return; }
-
-  const atkId = parseInt(atkVal);
-  const defId = parseInt(defVal);
-  const terrId = parseInt(terrVal);
-
-  if (isNaN(atkId) || isNaN(defId) || isNaN(terrId)) { notify('Valeurs invalides', 'err'); return; }
+  if (!atkId || !defId || !terrId) { notify('Remplissez tous les champs requis', 'err'); return; }
   if (atkId === defId) { notify('L\'attaquant et le défenseur doivent être différents', 'err'); return; }
-
   const battles = S.get('battles') || [];
   const players = S.get('players') || [];
   const territories = S.get('territories') || [];
   const atk = players.find(p => p.id === atkId);
   const def = players.find(p => p.id === defId);
   const terr = territories.find(t => t.id === terrId);
-
-  if (!atk) { notify('Attaquant introuvable', 'err'); return; }
-  if (!def) { notify('Défenseur introuvable', 'err'); return; }
-  if (!terr) { notify('Territoire introuvable', 'err'); return; }
-
   const battle = {
     id: Date.now(),
     attackerId: atkId,
@@ -1765,7 +1701,8 @@ function declareBattle() {
   battles.push(battle);
   S.set('battles', battles);
   addLog('battle', `Bataille déclarée : ${atk.username} vs ${def.username} sur ${terr.name}`);
-  notify('Bataille déclarée !');loadBattles();
+  notify('Bataille déclarée !');
+  loadBattles();
 }
 
 function openBattleResult(battleId) {
